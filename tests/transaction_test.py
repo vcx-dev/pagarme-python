@@ -150,7 +150,7 @@ class TransactionTestCase(PagarmeTestCase):
         with self.assertRaises(PagarmeApiError):
             transaction.charge()
  
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request))  
+    @mock.patch('requests.post', mock.Mock(side_effect=fake_request))
     def test_charge_transaction_with_valid_split_rules(self):
         transaction = Transaction(
             apikey='apikey',
