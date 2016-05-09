@@ -102,8 +102,8 @@ class Transaction(AbstractResource):
             d.update(self.customer.get_anti_fraud_data())
 
         if self.split_rules:
-            for idx, splitRule in enumerate(self.split_rules):
-                for key, value in splitRule.items():
+            for idx, split_rule in enumerate(self.split_rules):
+                for key, value in split_rule.items():
                     new_key = 'split_rules[{idx}][{key}]'.format(key=key,idx=idx)
                     d[new_key] = value     
 

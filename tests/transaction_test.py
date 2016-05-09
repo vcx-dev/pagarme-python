@@ -75,7 +75,7 @@ class TransactionTestCase(PagarmeTestCase):
         self.assertIn('any_argument', transaction.get_data())
 
     @mock.patch('requests.post', mock.Mock(side_effect=fake_request))
-    def test_transaction_caputre_later(self):
+    def test_transaction_capture_later(self):
         transaction = Transaction(
             api_key='apikey',
             amount=314,
@@ -86,7 +86,7 @@ class TransactionTestCase(PagarmeTestCase):
         transaction.capture()
 
     @mock.patch('requests.post', mock.Mock(side_effect=fake_request_fail))
-    def test_transaction_caputre_later_wihtout_charger(self):
+    def test_transaction_capture_later_without_charger(self):
         transaction = Transaction(
             api_key='apikey',
             amount=314,
@@ -98,7 +98,7 @@ class TransactionTestCase(PagarmeTestCase):
 
     @mock.patch('requests.get', mock.Mock(side_effect=fake_request))
     @mock.patch('requests.post', mock.Mock(side_effect=fake_request_fail))
-    def test_transaction_caputre_later_fails(self):
+    def test_transaction_capture_later_fails(self):
         transaction = Transaction(api_key='apikey')
         transaction.find_by_id(314)
         with self.assertRaises(PagarmeApiError):
@@ -125,3 +125,61 @@ class TransactionTestCase(PagarmeTestCase):
             customer = customer
         )
         self.assertIn('customer[phone][ddd]', transaction.get_data())
+
+
+    @mock.patch('requests.post', mock.Mock(side_effect=fake_request_fail))
+    def test_charge_transaction_with_invalid_split_rules_fails(self):
+        transaction = Transaction(
+            apikey='apikey',
+            amount=10000,
+            payment_method='boleto',
+            split_rules = [
+                {
+                    "recipient_id":"idrecipient",
+                    "liable":"true",
+                    "charge_processing_fee":"true",
+                    "percentage":"80" 
+                },
+                {
+                    "recipient_id":"idrecipient",
+                    "liable":"true",
+                    "charge_processing_fee":"true",
+                    "percentage":"30"
+                }
+            ]
+        )
+        with self.assertRaises(PagarmeApiError):
+            transaction.charge()
+
+
+       
+    @mock.patch('requests.post', mock.Mock(side_effect=fake_request))  
+    def test_charge_transaction_with_valid_split_rules():
+        transaction = Transaction(
+            apikey='apikey',
+            amount=10000,
+            payment_method='boleto',
+            split_rules = [
+                {
+                    "recipient_id":"idrecipient",
+                    "liable":"true",
+                    "charge_processing_fee":"true",
+                    "percentage":"20"
+                },
+                {
+                    "recipient_id":"idrecipient2",
+                    "liable":"true",
+                    "charge_processing_fee":"true",
+                    "percentage":"80"
+                }
+            ]
+        )
+        transaction.charge()
+        self.assertEqual('processing',transaction.status)
+
+
+
+
+
+
+
