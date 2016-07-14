@@ -53,6 +53,7 @@ class Subscription(AbstractResource):
             card_id=None,
             card_hash=None,
             postback_url=None,
+            metadata={},
             customer=None,
             **kwargs):
         if not api_key:
@@ -68,6 +69,7 @@ class Subscription(AbstractResource):
             'card_hash': card_hash,
             'postback_url': postback_url,
         }
+        self.metadata = metadata
         self.customer = customer
 
         if card_hash:
@@ -81,6 +83,10 @@ class Subscription(AbstractResource):
         data = self.data
         if self.customer:
             data.update(self.customer.get_anti_fraud_data())
+        if self.metadata:
+            for key, value in self.metadata.items():
+                new_key = 'metadata[{key}]'.format(key=key)
+                data[new_key] = value
         return data
 
     def find_by_id(self, id):
