@@ -77,6 +77,14 @@ class SubscriptionTestCase(PagarmeTestCase):
         with self.assertRaises(PagarmeApiError):
             sub.create()
 
+    def test_metadata_is_sent(self):
+        sub = Subscription(api_key='api_key',
+            plan_id=20112,
+            card_hash='longcardhash32432',
+            customer=Customer(email='email@test.com'),
+            metadata={'foo': 'bar'})
+        self.assertEqual('bar', sub.get_data()['metadata[foo]'])
+
     def test_subscription_without_api_key(self):
         with self.assertRaises(ValueError):
             sub = Subscription(
