@@ -49,13 +49,7 @@ class Transaction(AbstractResource):
         raise PagarmeApiError(error_string)
 
     def charge(self):
-        post_data = self.get_data()
-        url = self.BASE_URL
-        pagarme_response = requests.post(url, data=post_data)
-        if pagarme_response.status_code == 200:
-            self.handle_response(json.loads(pagarme_response.content))
-        else:
-            self.error(pagarme_response.content)
+        self.create()
 
     def handle_response(self, data):
         self.id = data['id']
