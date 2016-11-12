@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-import json
 import requests
 
 from .exceptions import PagarmeApiError, NotPaidException, NotBoundException
@@ -42,8 +41,7 @@ class Transaction(AbstractResource):
         for key, value in kwargs.items():
             self.data[key] = value
 
-    def error(self, response):
-        data = json.loads(response)
+    def error(self, data):
         e = data['errors'][0]
         error_string = e['type'] + ' - ' + e['message']
         raise PagarmeApiError(error_string)
@@ -66,7 +64,7 @@ class Transaction(AbstractResource):
         data = {'api_key': self.api_key}
         pagarme_response = requests.post(url, data=data)
         if pagarme_response.status_code == 200:
-            self.handle_response(json.loads(pagarme_response.json()))
+            self.handle_response(pagarme_response.json())
         else:
             self.error(pagarme_response.json())
 

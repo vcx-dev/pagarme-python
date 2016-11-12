@@ -1,6 +1,5 @@
 # encoding: utf-8
 import hashlib
-import json
 import requests
 
 from .card import Card

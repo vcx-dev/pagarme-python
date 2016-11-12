@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-import json
 import requests
 
 from .exceptions import PagarmeApiError
@@ -13,8 +12,7 @@ class AbstractResource(object):
     def handle_response(self, data):
         self.data.update(data)
 
-    def error(self, response):
-        data = json.loads(response)
+    def error(self, data):
         e = data['errors'][0]
         error_string = e['type'] + ' - ' + e['message']
         raise PagarmeApiError(error_string)
