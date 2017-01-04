@@ -1,4 +1,5 @@
 # encoding: utf-8
+import json
 
 
 class FakeResponse(object):
@@ -49,6 +50,9 @@ class FakeResponse(object):
             }
         }
     '''
+
+    def json(self):
+        return json.loads(self.content)
 
 def fake_request(*args, **kwargs):
     return FakeResponse()
