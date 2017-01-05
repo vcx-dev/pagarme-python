@@ -1,5 +1,7 @@
 # encoding: utf-8
 import hashlib
+import hmac
+
 import requests
 
 from .card import Card
@@ -61,6 +63,20 @@ class Pagarme(object):
         code = code.encode('utf-8')
         sha1_hash = hashlib.sha1(code).hexdigest()
         return fingerprint == sha1_hash
+
+    def validate_request_signature(self, payload, signature):
+        hash_method, current_hash = signature.split('=')
+        hash_constructor = hashlib.sha1
+
+        if hash_method != 'sha1':
+            raise NotImplementedError('Hash type not supported yet.')
+
+        generated_hash = hmac.new(
+            self.api_key.encode('utf-8'), payload.encode('utf-8'),
+            hash_constructor
+        ).hexdigest()
+
+        return current_hash == generated_hash
 
     def start_plan(
             self,
