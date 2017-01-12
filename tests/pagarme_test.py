@@ -87,6 +87,21 @@ class PagarmeApiTestCase(PagarmeTestCase):
         pagarme = Pagarme(self.api_key)
         self.assertTrue(pagarme.validate_fingerprint(1, '7eaf1eae64ab8d91bcd2c315350a7e9b321808ee'))
 
+    def test_validate_request_signature(self):
+        pagarme = Pagarme(self.api_key)
+        self.assertTrue(pagarme.validate_request_signature(
+            'sampledata=123512536&another=test',
+            'sha1=9496eceeb457c5fe5fdb88aafb0d60ee9f96887d'
+        ))
+
+    def test_validate_request_signature_with_wrong_hash(self):
+        pagarme = Pagarme(self.api_key)
+        with self.assertRaises(NotImplementedError):
+            pagarme.validate_request_signature(
+                'sampledata=123512536&another=test',
+                'md5=9496eceeb457c5fe5fdb88aafb0d60ee9f96887d'
+            )
+
     @mock.patch('requests.post', mock.Mock(side_effect=fake_create_plan))
     def test_create_plan(self):
         pagarme = Pagarme(self.api_key)
