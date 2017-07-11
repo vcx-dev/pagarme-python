@@ -23,3 +23,9 @@ GET_SPECIFIC_PAYABLE = BASE_URL + '/{transaction_id}/payables/{payable_id}'
 GET_TRANSACTION_OPERATION = BASE_URL + '/{0}/operations'
 
 GET_EVENTS_TRANSACTION = BASE_URL + '/{0}/events'
+
+GET_ALL_TRANSACTIONS_POSTBACKS = BASE_URL + '/{transaction_id}/postbacks'
+
+GET_TRANSACTION_POSTBACK_BY_ID = BASE_URL + '/{transaction_id}/postbacks/{postback_id}'
+
+REDELIVER_TRANSACTION_POSTBACK_BY_ID = BASE_URL + '/{transaction_id}/postbacks/{postback_id}/redeliver'
