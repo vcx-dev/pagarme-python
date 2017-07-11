@@ -21,3 +21,6 @@ def events (transaction_id,api_key):
 
 def create(dictionary):
 	return post(BASE_URL,dictionary)
+
+def capture (transaction_id, dictionary):
+    return post(CAPTURE_TRANSACTION_AFTER.format(transaction_id), dictionary)
