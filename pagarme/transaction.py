@@ -18,3 +18,6 @@ def operations (transaction_id,api_key):
 
 def events (transaction_id,api_key):
     return get(GET_EVENTS_TRANSACTION.format(transaction_id),api_key)
+
+def create(dictionary):
+	return post(BASE_URL,dictionary)
