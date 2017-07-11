@@ -24,3 +24,6 @@ def create(dictionary):
 
 def capture (transaction_id, dictionary):
     return post(CAPTURE_TRANSACTION_AFTER.format(transaction_id), dictionary)
+
+def refund (transaction_id, dictionary):
+    return post(REFUND_TRANSACTION.format(transaction_id),dictionary)
