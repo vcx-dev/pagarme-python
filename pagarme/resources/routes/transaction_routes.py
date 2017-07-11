@@ -1,8 +1,8 @@
 BASE_URL = 'https://api.pagar.me/1/transactions'
 
-CAPTURE_TRANSACTION_AFTER = BASE_URL + '/{transaction_id}/capture'
+CAPTURE_TRANSACTION_AFTER = BASE_URL + '/{0}/capture'
 
-REFUND_TRANSACTION = BASE_URL + '/{transaction_id}/refund'
+REFUND_TRANSACTION = BASE_URL + '/{0}/refund'
 
 PAY_BOLETO_NOTIFY = BASE_URL + '/{transaction_id}/collect_payment'
 
