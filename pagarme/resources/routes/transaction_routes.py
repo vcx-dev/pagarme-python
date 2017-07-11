@@ -14,12 +14,12 @@ GENERATE_ENCRYPTION_KEY_CARD_HASH = BASE_URL + '/transactions/card_hash_key'
 
 GET_ALL_TRANSACTIONS = BASE_URL
 
-GET_TRANSACTION_BY_ID = BASE_URL + '/{transaction_id}'
+GET_TRANSACTION_BY = BASE_URL + '/{0}'
 
-GET_ALL_PAYABLES_WITH_TRANSACTION_ID = BASE_URL + '/{transaction_id}/payables'
+GET_ALL_PAYABLES_WITH_TRANSACTION_ID = BASE_URL + '/{0}/payables'
 
 GET_SPECIFIC_PAYABLE = BASE_URL + '/{transaction_id}/payables/{payable_id}'
 
-GET_TRANSACTION_OPERATION = BASE_URL + '/{transaction_id}/operations'
+GET_TRANSACTION_OPERATION = BASE_URL + '/{0}/operations'
 
-GET_EVENTS_TRANSACTION = BASE_URL + '/{transaction_id}/events'
+GET_EVENTS_TRANSACTION = BASE_URL + '/{0}/events'
