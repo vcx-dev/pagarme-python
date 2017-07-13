@@ -1,7 +1,5 @@
 import requests
 
-from .exceptions import PagarmeApiError
-
 def post (end_point, data):
     pagarme_response = requests.post(end_point,data)
     return validate_response(pagarme_response)
