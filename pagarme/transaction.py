@@ -5,7 +5,7 @@ from resources import handler_request
 from resources.routes import transaction_routes
 
 def find_all (api_key):
-    return handler_request.get(BASE_URL,api_key)
+    return handler_request.get(transaction_routes.BASE_URL,api_key)
 
 def find_by(search_param,api_key):
     return handler_request.get(transaction_routes.GET_TRANSACTION_BY.format(search_param),api_key)
