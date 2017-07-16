@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-from resources import API_KEY as API_KEY
-from resources import handler_request
-from resources.routes import transaction_routes
+from pagarme.resources import API_KEY as API_KEY
+from pagarme.resources import handler_request
+from pagarme.resources.routes import transaction_routes
 
 def find_all (api_key):
     return handler_request.get(transaction_routes.BASE_URL,api_key)

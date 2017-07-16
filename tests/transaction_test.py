@@ -1,4 +1,4 @@
-import dictionaries
+from tests import dictionaries
 from pagarme import transaction
 from tests.pagarme_test import UNIT_TEST
 
