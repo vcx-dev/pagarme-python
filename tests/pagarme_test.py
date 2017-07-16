@@ -11,4 +11,4 @@ TEMPORARY_COMPANY = 'https://api.pagar.me/1/companies/temporary'
 def create_temporary_company():
     company = requests.post(TEMPORARY_COMPANY)
     valid_company = HANDLER_REQUEST.validate_response(company)
-    return valid_company['api_key']['test']
+    return valid_company
