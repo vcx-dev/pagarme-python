@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from tests import pagarme_test
+from tests.resources import pagarme_test
 
 ADDRESS_DICTIONARY = {'address':{'zipcode':'04571020','neighborhood':'Cidade Monções',
 'street':'R. Dr. Geraldo Campos Moreira','street_number':'240'}}
