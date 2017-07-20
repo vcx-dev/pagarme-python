@@ -29,3 +29,10 @@ VALID_CREDIT_CARD_TRANSACTION_DICTIONARY = {'api_key':API_KEY['api_key'],'amount
 'card_number':VALID_CARD_DICTIONARY['card_number'],'card_holder_name': VALID_CARD_DICTIONARY['card_holder_name'],
 'card_cvv':VALID_CARD_DICTIONARY['card_cvv'],'card_expiration_date':VALID_CARD_DICTIONARY['card_expiration_date'],
 'customer': CUSTOMER_DICTIONARY['customer']}
+
+VALID_CREDIT_CARD_TRANSACTION_CAPTURE_FALSE_DICTIONARY = {'api_key':API_KEY['api_key'],'amount':'10000',
+'capture':'false','card_number':VALID_CARD_DICTIONARY['card_number'],
+'card_holder_name': VALID_CARD_DICTIONARY['card_holder_name'],'card_cvv':VALID_CARD_DICTIONARY['card_cvv'],
+'card_expiration_date':VALID_CARD_DICTIONARY['card_expiration_date'],'customer': CUSTOMER_DICTIONARY['customer']}
+
+REFUNDED_OR_CAPTURE_TRANSACTION = {'api_key':API_KEY['api_key'],'amount':'10000'}
