@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
+
 from tests.resources.dictionaries import company_dictionary
 from tests.resources.dictionaries import card_dictionary
 from tests.resources.dictionaries import customer_dictionary
-
-BOLETO_TRANSACTION = {'api_key':company_dictionary.API_KEY['api_key'],'amount':'10000',
-'customer':customer_dictionary.CUSTOMER_DICTIONARY['customer']}
 
 REFUNDED_OR_CAPTURE_TRANSACTION = {'api_key':company_dictionary.API_KEY['api_key'],'amount':'10000'}
 
@@ -27,4 +25,4 @@ VALID_CREDIT_CARD_TRANSACTION_DICTIONARY = {'api_key':company_dictionary.API_KEY
 'card_holder_name': card_dictionary.VALID_CARD_DICTIONARY['card_holder_name'],
 'card_cvv':card_dictionary.VALID_CARD_DICTIONARY['card_cvv'],
 'card_expiration_date':card_dictionary.VALID_CARD_DICTIONARY['card_expiration_date'],
-'customer': card_dictionary.CUSTOMER_DICTIONARY['customer']}
+'customer': customer_dictionary.CUSTOMER_DICTIONARY['customer']}
