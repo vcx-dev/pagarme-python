@@ -18,7 +18,7 @@ def test_find_by():
 def test_get_all_transction_payables():
     trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
     all_payables = transaction.payables(trx['id'],transaction_dictionary.company_dictionary.API_KEY)
-    assert all_payables[0]['id'] is not None
+    assert all_payables is not None
 
 def test_get_all_transaction_operations():
     trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
@@ -28,12 +28,12 @@ def test_get_all_transaction_operations():
 def test_get_all_transaction_events():
     trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
     all_events = transaction.events(trx['id'],transaction_dictionary.company_dictionary.API_KEY)
-    assert all_events[0]['id'] is not None
+    assert all_events is not None
 
 def test_refund_transaction ():
     trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
-    refunded_transaction = transaction.refund(trx['id'],transaction_dictionary.REFUNDED_OR_CAPTURE_TRANSACTION)
-    refunded_transaction = transaction.find_by(refunded_transaction['id'],transaction_dictionary.company_dictionary.API_KEY)
+    refund_transaction = transaction.refund(trx['id'],transaction_dictionary.REFUNDED_OR_CAPTURE_TRANSACTION)
+    refunded_transaction = transaction.find_by(refund_transaction['id'],transaction_dictionary.company_dictionary.API_KEY)
     assert 'refunded' == refunded_transaction['status']
 
 def test_capture_transaction():
@@ -61,12 +61,6 @@ def test_get_specific_payable():
     assert specific_payable['id'] is not None
 
 def test_get_all_postbacks():
-    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION__WITH_POSTBACK_DICTIONARY)
     all_postbacks = transaction.postbacks(trx['id'],transaction_dictionary.company_dictionary.API_KEY)
-    assert all_postbacks[0]['id'] is not None
-
-def test_get_specific_postback():
-    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
-    all_postbacks = transaction.postbacks(trx['id'], transaction_dictionary.company_dictionary.API_KEY)
-    specific_postback = transaction.specific_postback(trx['id'], all_postbacks[0]['id'],transaction_dictionary.company_dictionary.API_KEY)
-    assert specific_postback['id'] is not None
+    assert all_postbacks is not None
