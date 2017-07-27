@@ -1,175 +1,66 @@
-# encoding: utf-8
+from tests.resources.dictionaries import transaction_dictionary
+from pagarme import transaction
+from tests.resources.pagarme_test import UNIT_TEST
 
-import mock
+def test_create_transaction():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    assert trx['id'] is not None
 
-from pagarme import Customer
-from pagarme.transaction import Transaction, PagarmeApiError, NotPaidException, NotBoundException
+def test_find_all_transactions():
+    all_transactions = transaction.find_all(transaction_dictionary.company_dictionary.API_KEY)
+    assert all_transactions is not None
 
-from .mocks import fake_request, fake_request_fail, fake_request_refund
-from .pagarme_test import PagarmeTestCase
+def test_find_by():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    find_trx = transaction.find_by(trx['id'],transaction_dictionary.company_dictionary.API_KEY)
+    assert trx['id'] == find_trx['id']
 
+def test_get_all_transction_payables():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    all_payables = transaction.payables(trx['id'],transaction_dictionary.company_dictionary.API_KEY)
+    assert all_payables is not None
 
-class TransactionTestCase(PagarmeTestCase):
+def test_get_all_transaction_operations():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    all_operations = transaction.operations(trx['id'],transaction_dictionary.company_dictionary.API_KEY)
+    assert all_operations[0]['id'] is not None
 
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request))
-    def test_charge(self):
-        transaction = Transaction(api_key='apikey', amount=314, card_hash='foobar', payment_method='credit_card', installments=1, postback_url='https://post.back.url')
-        transaction.charge()
-        self.assertEqual('processing', transaction.status)
+def test_get_all_transaction_events():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    all_events = transaction.events(trx['id'],transaction_dictionary.company_dictionary.API_KEY)
+    assert all_events is not None
 
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request_fail))
-    def test_charge_fail(self):
-        transaction = Transaction(api_key='apikey', amount=314, card_hash='foobar', payment_method='credit_card', installments=1, postback_url='https://post.back.url')
-        with self.assertRaises(PagarmeApiError):
-            transaction.charge()
+def test_refund_transaction ():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    refund_transaction = transaction.refund(trx['id'],transaction_dictionary.REFUNDED_OR_CAPTURE_TRANSACTION)
+    refunded_transaction = transaction.find_by(refund_transaction['id'],transaction_dictionary.company_dictionary.API_KEY)
+    assert 'refunded' == refunded_transaction['status']
 
-    @mock.patch('requests.get', mock.Mock(side_effect=fake_request))
-    def test_get_transaction_by_id(self):
-        transaction = Transaction(api_key='apikey')
-        transaction.find_by_id(314)
-        self.assertEqual(314, transaction.id)
+def test_capture_transaction():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_CAPTURE_FALSE_DICTIONARY)
+    capture_transaction = transaction.capture(trx['id'],transaction_dictionary.REFUNDED_OR_CAPTURE_TRANSACTION)
+    assert 'paid' == capture_transaction['status']
 
-    @mock.patch('requests.get', mock.Mock(side_effect=fake_request_fail))
-    def test_get_transaction_by_id_fails(self):
-        transaction = Transaction(api_key='apikey')
-        with self.assertRaises(PagarmeApiError):
-            transaction.find_by_id(314)
+def test_pay_boleto ():
+    trx = transaction.create(transaction_dictionary.BOLETO_TRANSACTION)
+    pay_transaction = transaction.pay_boleto(trx['id'],transaction_dictionary.PAY_BOLETO)
+    assert 'paid' == pay_transaction['status']
 
-    @mock.patch('requests.get', mock.Mock(side_effect=fake_request))
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request_refund))
-    def test_refund_transaction(self):
-        transaction = Transaction(api_key='apikey')
-        transaction.find_by_id(314)
-        transaction.refund()
-        self.assertEqual('refunded', transaction.status)
+def test_calculate_installments_amount ():
+    array_installments = transaction.calculate_installments_amount(transaction_dictionary.CALCULATE_INTALLMENTS_AMOUNT)
+    assert array_installments['installments'] is not None
 
-    def test_refund_transaction_before_set_id(self):
-        transaction = Transaction(api_key='apikey')
-        with self.assertRaises(NotPaidException):
-            transaction.refund()
+def test_generate_card_hash_key():
+    card_hash_key = transaction.generate_card_hash_key(transaction_dictionary.company_dictionary.API_KEY)
+    assert card_hash_key is not None
 
-    @mock.patch('requests.get', mock.Mock(side_effect=fake_request))
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request_fail))
-    def test_refund_transaction_fail(self):
-        transaction = Transaction(api_key='apikey')
-        transaction.find_by_id(314)
-        with self.assertRaises(PagarmeApiError):
-            transaction.refund()
+def test_get_specific_payable():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    all_payables = transaction.payables(trx['id'],transaction_dictionary.company_dictionary.API_KEY)
+    specific_payable = transaction.specific_payable(trx['id'],all_payables[0]['id'],transaction_dictionary.company_dictionary.API_KEY)
+    assert specific_payable['id'] is not None
 
-    def test_metadata_is_sended_(self):
-        transaction = Transaction(
-            api_key='apikey',
-            amount=314,
-            card_hash='cardhash',
-            metadata={'sku': 'foo bar'},
-        )
-        self.assertEqual('foo bar', transaction.get_data()['metadata[sku]'])
-
-    def test_transaction_can_have_any_arguments(self):
-        transaction = Transaction(
-            api_key='apikey',
-            amount=314,
-            card_hash='cardhash',
-            any_argument='any_value',
-        )
-        self.assertIn('any_argument', transaction.get_data())
-
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request))
-    def test_transaction_capture_later(self):
-        transaction = Transaction(
-            api_key='apikey',
-            amount=314,
-            card_hash='cardhash',
-            capture=False,
-        )
-        transaction.charge()
-        transaction.capture()
-
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request_fail))
-    def test_transaction_capture_later_without_charger(self):
-        transaction = Transaction(
-            api_key='apikey',
-            amount=314,
-            card_hash='cardhash',
-            capture=False,
-        )
-        with self.assertRaises(NotBoundException):
-            transaction.capture()
-
-    @mock.patch('requests.get', mock.Mock(side_effect=fake_request))
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request_fail))
-    def test_transaction_capture_later_fails(self):
-        transaction = Transaction(api_key='apikey')
-        transaction.find_by_id(314)
-        with self.assertRaises(PagarmeApiError):
-            transaction.capture()
-
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request))
-    def test_transaction_with_ant_fraud(self):
-        customer = Customer(
-            name='foo bar',
-            document_number='11122233345',
-            email='teste@email.com.br',
-            address_street='bar foo',
-            address_neighborhood='baz for',
-            address_zipcode='3945154',
-            address_street_number='99',
-            phone_ddd='31',
-            phone_number='9144587'
-        )
-
-        transaction = Transaction(
-            api_key='apikey',
-            amount=314,
-            card_hash='cardhash',
-            customer = customer
-        )
-        self.assertIn('customer[phone][ddd]', transaction.get_data())
-
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request_fail))
-    def test_charge_transaction_with_invalid_split_rules_fails(self):
-        transaction = Transaction(
-            apikey='apikey',
-            amount=10000,
-            payment_method='boleto',
-            split_rules = [
-                {
-                    "recipient_id":"idrecipient",
-                    "liable":"true",
-                    "charge_processing_fee":"true",
-                    "percentage":"80" 
-                },
-                {
-                    "recipient_id":"idrecipient",
-                    "liable":"true",
-                    "charge_processing_fee":"true",
-                    "percentage":"30"
-                }
-            ]
-        )
-        with self.assertRaises(PagarmeApiError):
-            transaction.charge()
- 
-    @mock.patch('requests.post', mock.Mock(side_effect=fake_request))
-    def test_charge_transaction_with_valid_split_rules(self):
-        transaction = Transaction(
-            apikey='apikey',
-            amount=10000,
-            payment_method='boleto',
-            split_rules = [
-                {
-                    "recipient_id":"idrecipient",
-                    "liable":"true",
-                    "charge_processing_fee":"true",
-                    "percentage":"20"
-                },
-                {
-                    "recipient_id":"idrecipient2",
-                    "liable":"true",
-                    "charge_processing_fee":"true",
-                    "percentage":"80"
-                }
-            ]
-        )
-        transaction.charge()
-        self.assertEqual('processing',transaction.status)
+def test_get_all_postbacks():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION__WITH_POSTBACK_DICTIONARY)
+    all_postbacks = transaction.postbacks(trx['id'],transaction_dictionary.company_dictionary.API_KEY)
+    assert all_postbacks is not None
