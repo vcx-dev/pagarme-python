@@ -4,7 +4,7 @@ CAPTURE_TRANSACTION_AFTER = BASE_URL + '/{0}/capture'
 
 REFUND_TRANSACTION = BASE_URL + '/{0}/refund'
 
-#PAY_BOLETO_NOTIFY = BASE_URL + '/{0}/collect_payment'
+PAY_BOLETO_NOTIFY = BASE_URL + '/{0}/collect_payment'
 
 PAY_BOLETO = BASE_URL + '/{0}'
 

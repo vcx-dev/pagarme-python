@@ -1,5 +1,3 @@
-from tests.resources import pagarme_test
+from pagarme.resources import handler_request
 
-COMPANY = {'company':pagarme_test.create_temporary_company()}
-
-API_KEY = {'api_key':COMPANY['company']['api_key']['test']}
+COMPANY = {'company': handler_request.authentication_key()}
