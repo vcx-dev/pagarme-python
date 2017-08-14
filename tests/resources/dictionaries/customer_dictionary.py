@@ -6,8 +6,6 @@ ADDRESS_DICTIONARY = {'address': {'zipcode': '04571020', 'neighborhood': 'Cidade
 
 PHONE_DICTIONARY = {'phone': {'number': '987654321', 'ddd': '11'}}
 
-CUSTOMER_DICTIONARY = {'customer': {'email': 'aardvark.silva@gmail.com',
-                                    'name': 'Aardvark da Silva',
-                                    'document_number': '18152564000105',
-                                    'address': ADDRESS_DICTIONARY['address'],
-                                    'phone': PHONE_DICTIONARY['phone']}}
+CUSTOMER_DICTIONARY = {'email': 'aardvark.silva@gmail.com', 'name': 'Aardvark da Silva',
+                       'document_number': '18152564000105', 'address': ADDRESS_DICTIONARY['address'],
+                       'phone': PHONE_DICTIONARY['phone']}

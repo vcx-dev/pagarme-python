@@ -18,25 +18,25 @@ INVALID_CREDIT_CARD_TRANSACTION_DICTIONARY = {'amount':'10000',
 'card_holder_name': card_dictionary.INVALID_CARD_DICTIONARY['card_holder_name'],
 'card_cvv':card_dictionary.INVALID_CARD_DICTIONARY['card_cvv'],
 'card_expiration_date':card_dictionary.INVALID_CARD_DICTIONARY['card_expiration_date'],
-'customer': customer_dictionary.CUSTOMER_DICTIONARY['customer']}
+'customer': customer_dictionary.CUSTOMER_DICTIONARY}
 
 VALID_CREDIT_CARD_TRANSACTION_CAPTURE_FALSE_DICTIONARY = {'amount':'10000', 'capture':'false',
 'card_number':card_dictionary.VALID_CARD_DICTIONARY['card_number'],
 'card_holder_name':card_dictionary.VALID_CARD_DICTIONARY['card_holder_name'],
 'card_cvv':card_dictionary.VALID_CARD_DICTIONARY['card_cvv'],
 'card_expiration_date':card_dictionary.VALID_CARD_DICTIONARY['card_expiration_date'],
-'customer': customer_dictionary.CUSTOMER_DICTIONARY['customer']}
+'customer': customer_dictionary.CUSTOMER_DICTIONARY}
 
 VALID_CREDIT_CARD_TRANSACTION_DICTIONARY = {'amount':'10000',
 'card_number':card_dictionary.VALID_CARD_DICTIONARY['card_number'],
 'card_holder_name': card_dictionary.VALID_CARD_DICTIONARY['card_holder_name'],
 'card_cvv':card_dictionary.VALID_CARD_DICTIONARY['card_cvv'],
 'card_expiration_date':card_dictionary.VALID_CARD_DICTIONARY['card_expiration_date'],
-'customer': customer_dictionary.CUSTOMER_DICTIONARY['customer']}
+'customer': customer_dictionary.CUSTOMER_DICTIONARY}
 
 VALID_CREDIT_CARD_TRANSACTION__WITH_POSTBACK_DICTIONARY = {'amount':'10000',
 'card_number':card_dictionary.VALID_CARD_DICTIONARY['card_number'], 'postback_url':pagarme_test.create_postback_url(),
 'card_holder_name': card_dictionary.VALID_CARD_DICTIONARY['card_holder_name'],
 'card_cvv':card_dictionary.VALID_CARD_DICTIONARY['card_cvv'],
 'card_expiration_date':card_dictionary.VALID_CARD_DICTIONARY['card_expiration_date'],
-'customer': customer_dictionary.CUSTOMER_DICTIONARY['customer']}
+'customer': customer_dictionary.CUSTOMER_DICTIONARY}
