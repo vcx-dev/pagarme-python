@@ -5,3 +5,4 @@ from pagarme import customer
 from pagarme import payable
 from pagarme import recipient
 from pagarme import transaction
+from pagarme import transfer
