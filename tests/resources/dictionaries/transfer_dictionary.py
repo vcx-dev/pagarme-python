@@ -1,0 +1,1 @@
+TRANSFER_DICTIONARY = {'amount': '5000'}
