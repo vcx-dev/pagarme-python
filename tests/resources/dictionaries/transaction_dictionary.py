@@ -15,13 +15,22 @@ PAY_BOLETO = {'status': 'paid'}
 
 REFUNDED_OR_CAPTURE_TRANSACTION = {'amount': '10000'}
 
-RECIPIENT = recipient.create(recipient_dictionary.RECIPIENT_DICTIONARY)
+RECIPIENT_1 = recipient.create(recipient_dictionary.RECIPIENT_DICTIONARY)
 
-SPLIT_RULE_PERCENTAGE = {'recipient_id': RECIPIENT['id'], 'percentage': 100, 'liable': 'true',
-                         'charge_processing_fee': 'true'}
+RECIPIENT_2 = recipient.create(recipient_dictionary.RECIPIENT_DICTIONARY)
 
-BOLETO_TRANSACTION_SPLIT = {'amount': BOLETO_TRANSACTION['amount'], 'payment_method': BOLETO_TRANSACTION['payment_method'],
-                            'split_rules':[SPLIT_RULE_PERCENTAGE]}
+SPLIT_RULE_AMOUNT = [{'recipient_id': RECIPIENT_1['id'], 'amount': 5000, 'liable': 'true',
+                          'charge_processing_fee': 'true'},
+                         {'recipient_id': RECIPIENT_2['id'], 'amount': 5000, 'liable': 'true',
+                          'charge_processing_fee': 'true'}]
+
+SPLIT_RULE_PERCENTAGE = [{'recipient_id': RECIPIENT_1['id'], 'percentage': 50, 'liable': 'true',
+                          'charge_processing_fee': 'true'},
+                         {'recipient_id': RECIPIENT_2['id'], 'percentage': 50, 'liable': 'true',
+                          'charge_processing_fee': 'true'}]
+
+BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE = {'amount': BOLETO_TRANSACTION['amount'], 'payment_method': BOLETO_TRANSACTION['payment_method'],
+                            'split_rules': SPLIT_RULE_PERCENTAGE}
 
 INVALID_CREDIT_CARD_TRANSACTION_DICTIONARY = {'amount': '10000',
 'card_number': card_dictionary.INVALID_CARD_DICTIONARY['card_number'],
@@ -50,3 +59,17 @@ VALID_CREDIT_CARD_TRANSACTION__WITH_POSTBACK_DICTIONARY = {'amount': '10000',
 'card_cvv': card_dictionary.VALID_CARD_DICTIONARY['card_cvv'],
 'card_expiration_date': card_dictionary.VALID_CARD_DICTIONARY['card_expiration_date'],
 'customer': customer_dictionary.CUSTOMER_DICTIONARY}
+
+VALID_CREDIT_CARD_TRANSACTION_DICTIONARY_WITH_SPLIT_RULE_AMOUNT = {'amount': '10000',
+'card_number': card_dictionary.VALID_CARD_DICTIONARY['card_number'],
+'card_holder_name': card_dictionary.VALID_CARD_DICTIONARY['card_holder_name'],
+'card_cvv': card_dictionary.VALID_CARD_DICTIONARY['card_cvv'],
+'card_expiration_date': card_dictionary.VALID_CARD_DICTIONARY['card_expiration_date'],
+'customer': customer_dictionary.CUSTOMER_DICTIONARY, 'split_rules': SPLIT_RULE_AMOUNT}
+
+VALID_CREDIT_CARD_TRANSACTION_DICTIONARY_WITH_SPLIT_RULE_PERCENTAGE = {'amount': '10000',
+'card_number': card_dictionary.VALID_CARD_DICTIONARY['card_number'],
+'card_holder_name': card_dictionary.VALID_CARD_DICTIONARY['card_holder_name'],
+'card_cvv': card_dictionary.VALID_CARD_DICTIONARY['card_cvv'],
+'card_expiration_date': card_dictionary.VALID_CARD_DICTIONARY['card_expiration_date'],
+'customer': customer_dictionary.CUSTOMER_DICTIONARY, 'split_rules': SPLIT_RULE_PERCENTAGE}
