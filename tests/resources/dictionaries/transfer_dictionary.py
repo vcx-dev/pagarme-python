@@ -1,1 +1,1 @@
-TRANSFER_DICTIONARY = {'amount': '5000'}
+TRANSFER_DICTIONARY = {'amount': '2500'}
