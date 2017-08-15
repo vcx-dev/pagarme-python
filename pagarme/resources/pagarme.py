@@ -1,5 +1,6 @@
 from pagarme.resources.handler_request import authentication_key
 from pagarme import balance
+from pagarme import balance_operation
 from pagarme import bank_account
 from pagarme import card
 from pagarme import customer
