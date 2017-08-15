@@ -6,3 +6,7 @@ def create(params):
 
 def find_all():
     return handler_request.get(plan_routes.GET_ALL_PLANS)
+
+
+def find_by(params):
+    return handler_request.get(plan_routes.GET_PLAN_BY_ID, params)
