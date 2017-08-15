@@ -37,5 +37,5 @@ def test_update():
     _plan = plan.create(plan_dictionary.TRIAL_PLAN)
     assert _plan['trial_days'] == 30
     update_plan = plan.update(_plan['id'], plan_dictionary.UPDATE_PLAN)
-    print(update_plan)
     assert update_plan['trial_days'] == 7
+    
