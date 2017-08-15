@@ -1,5 +1,9 @@
 from tests.resources.dictionaries import recipient_dictionary
+from tests.resources.dictionaries import transaction_dictionary
+from tests.resources.dictionaries import transfer_dictionary
 from pagarme import recipient
+from pagarme import transaction
+from pagarme import transfer
 
 
 def test_create_recipient():
@@ -28,9 +32,25 @@ def test_recipient_balance():
 
 
 def test_recipient_balance_operation():
-    _recipient = recipient.create(recipient_dictionary.RECIPIENT_DICTIONARY)
-    recipient_balance_operation = recipient.recipient_balance_operation(_recipient['id'])
-    assert recipient_balance_operation is not None
+    boleto = transaction.create(transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE)
+    transaction.pay_boleto(boleto['id'], transaction_dictionary.PAY_BOLETO)
+    transfer_dictionary.TRANSFER_DICTIONARY['recipient_id'] = \
+        transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE['split_rules'][0]['recipient_id']
+    _transfer = transfer.create(transfer_dictionary.TRANSFER_DICTIONARY)
+    recipient_balance_operation = recipient.recipient_balance_operation(_transfer['source_id'])
+    assert recipient_balance_operation[0]['movement_object']['source_id'] == _transfer['source_id']
+
+
+def test_recipient_balance_operation_id():
+    boleto = transaction.create(transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE)
+    transaction.pay_boleto(boleto['id'], transaction_dictionary.PAY_BOLETO)
+    transfer_dictionary.TRANSFER_DICTIONARY['recipient_id'] = \
+        transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE['split_rules'][0]['recipient_id']
+    _transfer = transfer.create(transfer_dictionary.TRANSFER_DICTIONARY)
+    recipient_balance_operation = recipient.recipient_balance_operation(_transfer['source_id'])
+    recipient_balance_operation_id = \
+        recipient.recipient_balance_operation_id(_transfer['source_id'], recipient_balance_operation[0]['id'])
+    assert recipient_balance_operation_id['id'] == recipient_balance_operation[0]['id']
 
 
 def test_update_recipient():
