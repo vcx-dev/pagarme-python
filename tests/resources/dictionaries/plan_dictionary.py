@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 
 TRIAL_PLAN = {
     "amount": "10000",
     "days": "30",
-    "trial_days": "30"
+    "trial_days": "30",
     "name": "Trial Plan"
 }
 
