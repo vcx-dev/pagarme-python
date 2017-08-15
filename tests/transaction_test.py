@@ -6,6 +6,15 @@ def test_create_transaction():
     trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
     assert trx['id'] is not None
 
+def test_create_transaction_with_split_rule_amount():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY_WITH_SPLIT_RULE_AMOUNT)
+    assert trx['split_rules'] is not None
+
+
+def test_create_transaction_with_split_rule_percentage():
+    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY_WITH_SPLIT_RULE_PERCENTAGE)
+    assert trx['split_rules'] is not None
+
 
 def test_find_all_transactions():
     all_transactions = transaction.find_all()
