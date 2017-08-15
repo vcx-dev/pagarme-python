@@ -7,8 +7,8 @@ def create(params):
 def find_all():
     return handler_request.get(plan_routes.GET_ALL_PLANS)
 
-def find_by(params):
-    return handler_request.get(plan_routes.GET_PLAN_BY_ID, params)
+def find_by(param):
+    return handler_request.get(plan_routes.GET_PLAN_BY_ID.format(param))
 
-def update(params):
-    return handler_request.put(plan_routes.UPDATE_PLAN, params)
+def update(id, params):
+    return handler_request.put(plan_routes.UPDATE_PLAN.format(id), params)
