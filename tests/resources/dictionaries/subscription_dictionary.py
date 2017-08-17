@@ -1,6 +1,7 @@
 from tests.resources.dictionaries import card_dictionary
 from tests.resources.dictionaries import customer_dictionary
 from tests.resources.dictionaries import plan_dictionary
+from tests.resources.dictionaries import transaction_dictionary
 from tests.resources import pagarme_test
 from pagarme import card
 from pagarme import plan
@@ -33,4 +34,30 @@ UPDATE = {
 
 CHARGES = {
     "charges": "1"
+}
+
+BOLETO_SPLIT_RULE_SUBSCRIPTION = {
+    "plan_id": NO_TRIAL_PLAN['id'],
+    "customer": customer_dictionary.CUSTOMER_DICTIONARY,
+    "payment_method": "boleto",
+    "postback_url": POSTBACK_URL,
+    "split_rules": transaction_dictionary.SPLIT_RULE_PERCENTAGE
+}
+
+CREDIT_CARD_PERCENTAGE_SPLIT_RULE_SUBSCRIPTION = {
+    "plan_id": NO_TRIAL_PLAN['id'],
+    "customer": customer_dictionary.CUSTOMER_DICTIONARY,
+    "card_id": CARD['id'],
+    "payment_method": "credit_card",
+    "postback_url": POSTBACK_URL,
+    "split_rules": transaction_dictionary.SPLIT_RULE_PERCENTAGE
+}
+
+BOLETO_PERCENTAGE_SPLIT_RULE_SUBSCRIPTION = {
+    "plan_id": NO_TRIAL_PLAN['id'],
+    "customer": customer_dictionary.CUSTOMER_DICTIONARY,
+    "card_id": CARD['id'],
+    "payment_method": "boleto",
+    "postback_url": POSTBACK_URL,
+    "split_rules": transaction_dictionary.SPLIT_RULE_PERCENTAGE
 }
