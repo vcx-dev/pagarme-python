@@ -1,5 +1,6 @@
 from tests.resources.dictionaries import subscription_dictionary
 from pagarme import subscription
+from pagarme import transaction
 
 
 def test_create_boleto_subscription():
@@ -51,9 +52,22 @@ def test_settle_charges_params():
     assert settle_charge_subscription['status'] == 'paid'
     assert settle_charge_subscription['settled_charges'] == [1]
 
+
 def test_settle_charges_no_params():
     _subscription = subscription.create(subscription_dictionary.BOLETO_SUBSCRIPTION)
     assert _subscription['status'] == 'unpaid'
     settle_charge_subscription = subscription.settle_charges(_subscription['id'])
     assert settle_charge_subscription['status'] == 'paid'
     assert settle_charge_subscription['settled_charges'] == [1]
+
+
+def test_create_split_rule_percentage_subscription():
+    _subscription = subscription.create(subscription_dictionary.CREDIT_CARD_PERCENTAGE_SPLIT_RULE_SUBSCRIPTION)
+    _transaction = transaction.find_by(_subscription['current_transaction']['id'])
+    assert _transaction['split_rules'] is not None
+
+
+def test_create_split_rule_amount_subscription():
+    _subscription = subscription.create(subscription_dictionary.BOLETO_PERCENTAGE_SPLIT_RULE_SUBSCRIPTION)
+    _transaction = transaction.find_by(_subscription['current_transaction']['id'])
+    assert _transaction['split_rules'] is not None
