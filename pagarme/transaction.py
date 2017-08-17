@@ -52,6 +52,10 @@ def postbacks(transaction_id):
     return handler_request.get(transaction_routes.GET_ALL_POSTBACKS.format(transaction_id))
 
 
+def postback_redeliver(transaction_id, postback_id):
+    return handler_request.post(transaction_routes.POSTBACK_REDELIVER.format(transaction_id, postback_id))
+
+
 def refund(transaction_id, dictionary):
     return handler_request.post(transaction_routes.REFUND_TRANSACTION.format(transaction_id), dictionary)
 
