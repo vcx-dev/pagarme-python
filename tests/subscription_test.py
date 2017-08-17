@@ -1,4 +1,5 @@
 from tests.resources.dictionaries import subscription_dictionary
+from tests.resources.dictionaries import transaction_dictionary
 from pagarme import subscription
 from pagarme import transaction
 
@@ -71,3 +72,26 @@ def test_create_split_rule_amount_subscription():
     _subscription = subscription.create(subscription_dictionary.BOLETO_PERCENTAGE_SPLIT_RULE_SUBSCRIPTION)
     _transaction = transaction.find_by(_subscription['current_transaction']['id'])
     assert _transaction['split_rules'] is not None
+
+
+def test_postbacks_find_all():
+    _subscription = subscription.create(subscription_dictionary.BOLETO_SUBSCRIPTION)
+    _transaction = subscription.transactions(_subscription['id'])[0]
+    assert _transaction['status'] == 'waiting_payment'
+    transaction.pay_boleto(_transaction['id'], transaction_dictionary.PAY_BOLETO)
+    _transaction_paid = transaction.find_by(_transaction['id'])
+    assert _transaction_paid['status'] == 'paid'
+    _postbacks = subscription.postbacks(_subscription['id'])[0]
+    assert _postbacks['model_id'] == str(_subscription['id'])
+
+
+def test_postbacks_redeliver():
+    _subscription = subscription.create(subscription_dictionary.BOLETO_SUBSCRIPTION)
+    _transaction = subscription.transactions(_subscription['id'])
+    assert _transaction[0]['status'] == 'waiting_payment'
+    transaction.pay_boleto(_transaction[0]['id'], transaction_dictionary.PAY_BOLETO)
+    _transaction_paid = transaction.find_by(_transaction[0]['id'])
+    assert _transaction_paid['status'] == 'paid'
+    _postbacks = subscription.postbacks(_subscription['id'])
+    redeliver = subscription.postback_redeliver(_subscription['id'], _postbacks[0]['id'])
+    assert redeliver['status'] == 'pending_retry'
