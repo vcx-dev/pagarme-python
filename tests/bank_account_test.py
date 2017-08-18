@@ -1,6 +1,7 @@
 from tests.resources.dictionaries import bank_account_dictionary
 from pagarme import bank_account
 
+
 def test_create_bank_account():
     bank = bank_account.create(bank_account_dictionary.BANK_ACCOUNT_DICTIONARY)
     assert bank['id'] is not None
