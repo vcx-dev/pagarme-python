@@ -22,6 +22,11 @@ def test_find_by():
     assert _recipient['id'] == find_recipient['id']
 
 
+def test_find_default_recipient():
+    default_recipient = recipient.default_recipient()['test']
+    assert default_recipient is not None
+
+
 def test_recipient_balance():
     _recipient = recipient.create(recipient_dictionary.RECIPIENT_DICTIONARY)
     recipient_balance = recipient.recipient_balance(_recipient['id'])
