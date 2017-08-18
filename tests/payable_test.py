@@ -4,7 +4,6 @@ from pagarme import payable
 
 def test_find_all_payables():
     all_payables = payable.find_all()
-    print(all_payables)
     assert all_payables is not None
 
 
