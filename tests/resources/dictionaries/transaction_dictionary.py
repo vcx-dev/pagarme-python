@@ -15,18 +15,18 @@ PAY_BOLETO = {'status': 'paid'}
 
 REFUNDED_OR_CAPTURE_TRANSACTION = {'amount': '10000'}
 
-RECIPIENT_1 = recipient.create(recipient_dictionary.RECIPIENT_DICTIONARY)
+DEFAULT_RECIPIENT = recipient.default_recipient()['test']
 
-RECIPIENT_2 = recipient.create(recipient_dictionary.RECIPIENT_DICTIONARY)
+RECIPIENT = recipient.create(recipient_dictionary.RECIPIENT_DICTIONARY)
 
-SPLIT_RULE_AMOUNT = [{'recipient_id': RECIPIENT_1['id'], 'amount': 5000, 'liable': 'true',
+SPLIT_RULE_AMOUNT = [{'recipient_id': DEFAULT_RECIPIENT, 'amount': 5000, 'liable': 'true',
                           'charge_processing_fee': 'true'},
-                         {'recipient_id': RECIPIENT_2['id'], 'amount': 5000, 'liable': 'true',
+                         {'recipient_id': RECIPIENT['id'], 'amount': 5000, 'liable': 'true',
                           'charge_processing_fee': 'true'}]
 
-SPLIT_RULE_PERCENTAGE = [{'recipient_id': RECIPIENT_1['id'], 'percentage': 50, 'liable': 'true',
+SPLIT_RULE_PERCENTAGE = [{'recipient_id': DEFAULT_RECIPIENT, 'percentage': 50, 'liable': 'true',
                           'charge_processing_fee': 'true'},
-                         {'recipient_id': RECIPIENT_2['id'], 'percentage': 50, 'liable': 'true',
+                         {'recipient_id': RECIPIENT['id'], 'percentage': 50, 'liable': 'true',
                           'charge_processing_fee': 'true'}]
 
 BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE = {'amount': BOLETO_TRANSACTION['amount'], 'payment_method': BOLETO_TRANSACTION['payment_method'],
