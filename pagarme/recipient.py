@@ -19,15 +19,18 @@ def find_by(search_param):
 def recipient_balance(id_recipient):
     return handler_request.get(recipient_routes.GET_RECIPIENT_BALANCE.format(id_recipient))
 
+
 def default_recipient():
-    return  handler_request.get(recipient_routes.GET_DEFAULT_RECIPIENT)['default_recipient_id']
+    return handler_request.get(recipient_routes.GET_DEFAULT_RECIPIENT)['default_recipient_id']
+
 
 def recipient_balance_operation(id_recipient):
     return handler_request.get(recipient_routes.GET_RECIPIENT_BALANCE_OPERATIONS.format(id_recipient))
 
 
 def recipient_balance_operation_id(id_recipient, operation_id):
-    return handler_request.get(recipient_routes.GET_RECIPIENT_BALANCE_OPERATION_BY_ID.format(id_recipient, operation_id))
+    return handler_request.get(recipient_routes.GET_RECIPIENT_BALANCE_OPERATION_BY_ID.format(id_recipient,
+                                                                                             operation_id))
 
 
 def update_recipient(id_recipient, update_param):
