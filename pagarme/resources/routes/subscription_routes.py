@@ -16,4 +16,4 @@ GET_ALL_SUBSCRIPTIONS_POSTBACKS = BASE_URL + '/{0}/postbacks'
 
 GET_SUBSCRIPTION_POSTBACK_BY_ID = BASE_URL + '/{0}/postbacks/{postback_id}'
 
-REDELIVER_SUBSCRIPTION_POSTBACK_BY_ID = BASE_URL + '/{0}/postbacks/{postback_id}/redeliver'
+REDELIVER_SUBSCRIPTION_POSTBACK_BY_ID = BASE_URL + '/{0}/postbacks/{1}/redeliver'

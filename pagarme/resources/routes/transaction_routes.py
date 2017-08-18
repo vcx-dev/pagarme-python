@@ -28,4 +28,4 @@ GET_ALL_POSTBACKS = BASE_URL + '/{0}/postbacks'
 
 GET_SPECIFIC_POSTBACK = BASE_URL + '/{0}/postbacks/{1}'
 
-POSTBACK_REDELIVER = BASE_URL + '/{transaction_id}/postbacks/{postback_id}/redeliver'
+POSTBACK_REDELIVER = BASE_URL + '/{0}/postbacks/{1}/redeliver'

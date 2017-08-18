@@ -85,3 +85,24 @@ def test_get_all_postbacks():
     trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION__WITH_POSTBACK_DICTIONARY)
     all_postbacks = transaction.postbacks(trx['id'])
     assert all_postbacks is not None
+
+
+def test_postbacks_find_all():
+    _transaction = transaction.create(transaction_dictionary.BOLETO_TRANSACTION)
+    assert _transaction['status'] == 'waiting_payment'
+    transaction.pay_boleto(_transaction['id'], transaction_dictionary.PAY_BOLETO)
+    _transaction_paid = transaction.find_by(_transaction['id'])
+    assert _transaction_paid['status'] == 'paid'
+    _postbacks = transaction.postbacks(_transaction_paid['id'])
+    assert _postbacks[0]['model_id'] == str(_transaction_paid['id'])
+
+
+def test_postbacks_redeliver():
+    _transaction = transaction.create(transaction_dictionary.BOLETO_TRANSACTION)
+    assert _transaction['status'] == 'waiting_payment'
+    transaction.pay_boleto(_transaction['id'], transaction_dictionary.PAY_BOLETO)
+    _transaction_paid = transaction.find_by(_transaction['id'])
+    assert _transaction_paid['status'] == 'paid'
+    _postbacks = transaction.postbacks(_transaction_paid['id'])
+    redeliver = transaction.postback_redeliver(_transaction_paid['id'], _postbacks[0]['id'])
+    assert redeliver['status'] == 'pending_retry'

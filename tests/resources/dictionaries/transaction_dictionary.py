@@ -6,7 +6,11 @@ from tests.resources.dictionaries import recipient_dictionary
 from tests.resources import pagarme_test
 from pagarme import recipient
 
-BOLETO_TRANSACTION = {'amount': '10000', 'payment_method': 'boleto'}
+BOLETO_TRANSACTION = {
+    'amount': '10000',
+    'payment_method': 'boleto',
+    'postback_url': pagarme_test.create_postback_url()
+}
 
 CALCULATE_INTALLMENTS_AMOUNT = {'amount': '10000', 'free_installments': "1", 'interest_rate': '13',
                                 'max_installments': '12'}
