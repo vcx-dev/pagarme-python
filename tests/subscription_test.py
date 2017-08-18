@@ -2,7 +2,7 @@ from tests.resources.dictionaries import subscription_dictionary
 from tests.resources.dictionaries import transaction_dictionary
 from pagarme import subscription
 from pagarme import transaction
-
+import time
 
 def test_create_boleto_subscription():
     _subscription = subscription.create(subscription_dictionary.BOLETO_SUBSCRIPTION)
@@ -76,20 +76,24 @@ def test_create_split_rule_amount_subscription():
 
 def test_postbacks_find_all():
     _subscription = subscription.create(subscription_dictionary.BOLETO_SUBSCRIPTION)
-    _transaction = subscription.transactions(_subscription['id'])[0]
-    assert _transaction['status'] == 'waiting_payment'
-    transaction.pay_boleto(_transaction['id'], transaction_dictionary.PAY_BOLETO)
-    _transaction_paid = transaction.find_by(_transaction['id'])
+    time.sleep(1)
+    _transaction = subscription.transactions(_subscription['id'])
+    assert _transaction[0]['status'] == 'waiting_payment'
+    transaction.pay_boleto(_transaction[0]['id'], transaction_dictionary.PAY_BOLETO)
+    time.sleep(1)
+    _transaction_paid = transaction.find_by(_transaction[0]['id'])
     assert _transaction_paid['status'] == 'paid'
-    _postbacks = subscription.postbacks(_subscription['id'])[0]
-    assert _postbacks['model_id'] == str(_subscription['id'])
+    _postbacks = subscription.postbacks(_subscription['id'])
+    assert _postbacks[0]['model_id'] == str(_subscription['id'])
 
 
 def test_postbacks_redeliver():
     _subscription = subscription.create(subscription_dictionary.BOLETO_SUBSCRIPTION)
+    time.sleep(1)
     _transaction = subscription.transactions(_subscription['id'])
     assert _transaction[0]['status'] == 'waiting_payment'
     transaction.pay_boleto(_transaction[0]['id'], transaction_dictionary.PAY_BOLETO)
+    time.sleep(1)
     _transaction_paid = transaction.find_by(_transaction[0]['id'])
     assert _transaction_paid['status'] == 'paid'
     _postbacks = subscription.postbacks(_subscription['id'])
