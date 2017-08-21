@@ -1,7 +1,9 @@
 # encoding: utf-8
 
-import requests
 from pagarme.resources import handler_request
+from datetime import datetime, timedelta
+import requests
+import time
 
 
 REQUESTBIN_BASE = 'https://requestb.in/api/v1/bins'
@@ -14,5 +16,9 @@ def create_postback_url():
         return 'http://requestb.in/'+valid_resquest_bin['name']
     else:
         return 'No postback url'
+
+
+def generate_timestamp():
+    return int(time.mktime((datetime.now()+timedelta(days=3)).timetuple()) * 1000)
 
 handler_request.authentication_key()
