@@ -4,6 +4,7 @@ from pagarme import subscription
 from pagarme import transaction
 import time
 
+
 def test_create_boleto_subscription():
     _subscription = subscription.create(subscription_dictionary.BOLETO_SUBSCRIPTION)
     assert _subscription['payment_method'] == 'boleto'
