@@ -21,4 +21,4 @@ def create_postback_url():
 def generate_timestamp():
     return int(time.mktime((datetime.now()+timedelta(days=3)).timetuple()) * 1000)
 
-auth_test = handler_request.authentication_key()
+auth_test = handler_request.authentication_key(None,True)
