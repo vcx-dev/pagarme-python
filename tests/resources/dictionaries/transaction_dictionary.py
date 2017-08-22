@@ -43,6 +43,11 @@ INVALID_CREDIT_CARD_TRANSACTION_DICTIONARY = {'amount': '1000000',
 'card_expiration_date': card_dictionary.INVALID_CARD_DICTIONARY['card_expiration_date'],
 'customer': customer_dictionary.CUSTOMER_DICTIONARY}
 
+INVALID_REQUEST ={
+    'amount': '1',
+    'payment_method': BOLETO_TRANSACTION['payment_method']
+}
+
 VALID_CREDIT_CARD_TRANSACTION_CAPTURE_FALSE_DICTIONARY = {'amount': '1000000', 'capture': 'false',
 'card_number': card_dictionary.VALID_CARD_DICTIONARY['card_number'],
 'card_holder_name': card_dictionary.VALID_CARD_DICTIONARY['card_holder_name'],
