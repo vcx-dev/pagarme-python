@@ -3,6 +3,7 @@ import requests
 
 TEMPORARY_COMPANY = 'https://api.pagar.me/1/companies/temporary'
 
+KEYS = {}
 
 def validate_response(pagarme_response):
     if pagarme_response.status_code == 200:
@@ -16,17 +17,15 @@ def create_temporary_company():
     valid_company = validate_response(company)
     return valid_company
 
-KEYS = {}
 
-
-def authentication_key(api_key=None):
+def authentication_key(api_key=None, company_temporary=False):
     global KEYS
-    if api_key is None:
-        company = create_temporary_company()
-        api_key = company['api_key']['test']
+    if company_temporary == False:
         KEYS['api_key'] = api_key
         return KEYS
-    else:
+    if company_temporary == True:
+        company = create_temporary_company()
+        api_key = company['api_key']['test']
         KEYS['api_key'] = api_key
         return KEYS
 
