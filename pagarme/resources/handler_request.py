@@ -24,9 +24,7 @@ def authentication_key(api_key=None):
     if api_key is None:
         company = create_temporary_company()
         api_key = company['api_key']['test']
-        encryption_key = company['encryption_key']['test']
         KEYS['api_key'] = api_key
-        KEYS['encryption_key'] = encryption_key
         return KEYS
     else:
         KEYS['api_key'] = api_key
