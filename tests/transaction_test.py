@@ -70,6 +70,11 @@ def test_calculate_installments_amount():
     assert array_installments['installments'] is not None
 
 
+def test_error_request():
+    error = transaction.create(transaction_dictionary.INVALID_REQUEST)
+    assert error[0]['type'] == 'invalid_parameter'
+
+
 def test_generate_card_hash_key():
     card_hash_key = transaction.generate_card_hash_key()
     assert card_hash_key is not None
