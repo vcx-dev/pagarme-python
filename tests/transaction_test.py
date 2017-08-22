@@ -107,3 +107,12 @@ def test_postbacks_redeliver():
     _postbacks = transaction.postbacks(_transaction_paid['id'])
     redeliver = transaction.postback_redeliver(_transaction_paid['id'], _postbacks[0]['id'])
     assert redeliver['status'] == 'pending_retry'
+
+
+def test_specific_postback():
+    _transaction = transaction.create(transaction_dictionary.BOLETO_TRANSACTION)
+    transaction.pay_boleto(_transaction['id'], transaction_dictionary.PAY_BOLETO)
+    transaction_paid = transaction.find_by(_transaction['id'])
+    postbacks = transaction.postbacks(transaction_paid['id'])
+    specific_postback = transaction.specific_postback(transaction_paid['id'], postbacks[0]['id'])
+    assert specific_postback['id'] == postbacks[0]['id']
