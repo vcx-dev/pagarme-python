@@ -10,5 +10,5 @@ def find_all():
     return handler_request.get(customer_routes.GET_ALL_CUSTOMERS)
 
 
-def find_by(search_param):
-    return handler_request.get(customer_routes.GET_CUSTOMER_BY.format(search_param))
+def find_by(customer_id):
+    return handler_request.get(customer_routes.GET_CUSTOMER_BY.format(customer_id))

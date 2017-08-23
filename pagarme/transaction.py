@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 from pagarme.resources import handler_request
 from pagarme.resources.routes import transaction_routes
 
