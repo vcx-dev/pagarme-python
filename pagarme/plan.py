@@ -9,9 +9,9 @@ def find_all():
     return handler_request.get(plan_routes.GET_ALL_PLANS)
 
 
-def find_by(param):
-    return handler_request.get(plan_routes.GET_PLAN_BY_ID.format(param))
+def find_by(plan_id):
+    return handler_request.get(plan_routes.GET_PLAN_BY_ID.format(plan_id))
 
 
-def update(plan_id, params):
-    return handler_request.put(plan_routes.UPDATE_PLAN.format(plan_id), params)
+def update(plan_id, dictionary):
+    return handler_request.put(plan_routes.UPDATE_PLAN.format(plan_id), dictionary)

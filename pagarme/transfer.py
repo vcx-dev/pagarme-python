@@ -14,5 +14,5 @@ def find_all():
     return handler_request.get(transfer_routes.GET_ALL_TRANSFERS)
 
 
-def find_by(search_param):
-    return handler_request.get(transfer_routes.GET_TRANSFER_BY.format(search_param))
+def find_by(transfer_id):
+    return handler_request.get(transfer_routes.GET_TRANSFER_BY.format(transfer_id))
