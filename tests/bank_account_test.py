@@ -1,9 +1,9 @@
-from tests.resources.dictionaries import bank_account_dictionary
 from pagarme import bank_account
+from tests.resources.dictionaries import bank_account_dictionary
 
 
 def test_create_bank_account():
-    bank = bank_account.create(bank_account_dictionary.BANK_ACCOUNT_DICTIONARY)
+    bank = bank_account.create(bank_account_dictionary.BANK_ACCOUNT)
     assert bank['id'] is not None
 
 
@@ -13,6 +13,6 @@ def test_find_all_bank_accounts():
 
 
 def test_find_by():
-    bank = bank_account.create(bank_account_dictionary.BANK_ACCOUNT_DICTIONARY)
+    bank = bank_account.create(bank_account_dictionary.BANK_ACCOUNT)
     find_bank = bank_account.find_by(bank['id'])
     assert bank['id'] == find_bank['id']

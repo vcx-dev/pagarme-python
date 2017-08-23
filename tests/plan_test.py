@@ -1,15 +1,5 @@
-from tests.resources.dictionaries import plan_dictionary
 from pagarme import plan
-
-
-def test_create_trial_plan():
-    _plan = plan.create(plan_dictionary.TRIAL_PLAN)
-    assert _plan['trial_days'] == 30
-
-
-def test_create_no_trial_plan():
-    _plan = plan.create(plan_dictionary.NO_TRIAL_PLAN)
-    assert _plan['trial_days'] == 0
+from tests.resources.dictionaries import plan_dictionary
 
 
 def test_create_boleto_plan():
@@ -20,6 +10,16 @@ def test_create_boleto_plan():
 def test_create_credit_card_plan():
     _plan = plan.create(plan_dictionary.CREDIT_CARD_PLAN)
     assert _plan['payment_methods'] == ["credit_card"]
+
+
+def test_create_no_trial_plan():
+    _plan = plan.create(plan_dictionary.NO_TRIAL_PLAN)
+    assert _plan['trial_days'] == 0
+
+
+def test_create_trial_plan():
+    _plan = plan.create(plan_dictionary.TRIAL_PLAN)
+    assert _plan['trial_days'] == 30
 
 
 def test_find_all_plans():

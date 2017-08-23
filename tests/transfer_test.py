@@ -1,15 +1,15 @@
-from tests.resources.dictionaries import transfer_dictionary
-from tests.resources.dictionaries import transaction_dictionary
 from pagarme import transaction
 from pagarme import transfer
+from tests.resources.dictionaries import transaction_dictionary
+from tests.resources.dictionaries import transfer_dictionary
 
 
 def test_cancel_transfer():
     boleto = transaction.create(transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE)
     transaction.pay_boleto(boleto['id'], transaction_dictionary.PAY_BOLETO)
-    transfer_dictionary.TRANSFER_DICTIONARY['recipient_id'] = \
+    transfer_dictionary.TRANSFER['recipient_id'] = \
         transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE['split_rules'][0]['recipient_id']
-    _transfer = transfer.create(transfer_dictionary.TRANSFER_DICTIONARY)
+    _transfer = transfer.create(transfer_dictionary.TRANSFER)
     find_transfer = transfer.find_by(_transfer['id'])
     cancel_transfer = transfer.cancel(find_transfer['id'])
     assert cancel_transfer['status'] == 'canceled'
@@ -18,9 +18,9 @@ def test_cancel_transfer():
 def test_create_transfer():
     boleto = transaction.create(transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE)
     transaction.pay_boleto(boleto['id'], transaction_dictionary.PAY_BOLETO)
-    transfer_dictionary.TRANSFER_DICTIONARY['recipient_id'] = \
+    transfer_dictionary.TRANSFER['recipient_id'] = \
         transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE['split_rules'][0]['recipient_id']
-    _transfer = transfer.create(transfer_dictionary.TRANSFER_DICTIONARY)
+    _transfer = transfer.create(transfer_dictionary.TRANSFER)
     assert _transfer['id'] is not None
 
 
@@ -32,8 +32,8 @@ def test_find_all_transfers():
 def test_find_by():
     boleto = transaction.create(transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE)
     transaction.pay_boleto(boleto['id'], transaction_dictionary.PAY_BOLETO)
-    transfer_dictionary.TRANSFER_DICTIONARY['recipient_id'] = \
+    transfer_dictionary.TRANSFER['recipient_id'] = \
         transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE['split_rules'][0]['recipient_id']
-    _transfer = transfer.create(transfer_dictionary.TRANSFER_DICTIONARY)
+    _transfer = transfer.create(transfer_dictionary.TRANSFER)
     find_transfer = transfer.find_by(_transfer['id'])
     assert _transfer['id'] == find_transfer['id']
