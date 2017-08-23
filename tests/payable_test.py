@@ -1,6 +1,5 @@
-from tests.resources.dictionaries import payable_dictionary
 from pagarme import payable
-
+from tests.resources.dictionaries import payable_dictionary
 
 def test_find_all_payables():
     all_payables = payable.find_all()

@@ -7,7 +7,7 @@ from tests.resources.dictionaries import transaction_dictionary
 
 
 def test_cancel():
-    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION)
     default_recipient_id = transaction_dictionary.DEFAULT_RECIPIENT
     recipient.update_recipient(default_recipient_id, recipient_dictionary.UPDATE_RECIPIENT)
     _bulk_anticipation = bulk_anticipation.create(default_recipient_id, bulk_anticipation_dictionary.BULK_ANTICIPATION)
@@ -17,7 +17,7 @@ def test_cancel():
 
 
 def test_confirm():
-    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION)
     default_recipient_id = transaction_dictionary.DEFAULT_RECIPIENT
     recipient.update_recipient(default_recipient_id, recipient_dictionary.UPDATE_RECIPIENT)
     _bulk_anticipation = bulk_anticipation.create(default_recipient_id, bulk_anticipation_dictionary.BULK_ANTICIPATION)
@@ -26,7 +26,7 @@ def test_confirm():
 
 
 def test_create():
-    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION)
     default_recipient_id = transaction_dictionary.DEFAULT_RECIPIENT
     recipient.update_recipient(default_recipient_id, recipient_dictionary.UPDATE_RECIPIENT)
     _bulk_anticipation = bulk_anticipation.create(default_recipient_id, bulk_anticipation_dictionary.BULK_ANTICIPATION)
@@ -34,7 +34,7 @@ def test_create():
 
 
 def test_delete():
-    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION)
     default_recipient_id = transaction_dictionary.DEFAULT_RECIPIENT
     recipient.update_recipient(default_recipient_id, recipient_dictionary.UPDATE_RECIPIENT)
     _bulk_anticipation = bulk_anticipation.create(default_recipient_id, bulk_anticipation_dictionary.BULK_ANTICIPATION)
@@ -43,7 +43,7 @@ def test_delete():
 
 
 def test_find_all():
-    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+    transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION)
     default_recipient_id = transaction_dictionary.DEFAULT_RECIPIENT
     recipient.update_recipient(default_recipient_id, recipient_dictionary.UPDATE_RECIPIENT)
     _bulk_anticipation = bulk_anticipation.create(default_recipient_id, bulk_anticipation_dictionary.BULK_ANTICIPATION)
