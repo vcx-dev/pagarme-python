@@ -10,6 +10,5 @@ def find_all():
     return handler_request.get(card_routes.GET_ALL_CARDS)
 
 
-def find_by(card_id):
-    return handler_request.get(card_routes.GET_CARD_BY_ID.format(card_id))
-
+def find_by(search_params):
+    return handler_request.get(card_routes.GET_CARD_BY, search_params)

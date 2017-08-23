@@ -14,8 +14,8 @@ def find_all():
     return handler_request.get(recipient_routes.GET_ALL_RECIPIENTS)
 
 
-def find_by(recipient_id):
-    return handler_request.get(recipient_routes.GET_RECIPIENT_BY.format(recipient_id))
+def find_by(search_params):
+    return handler_request.get(recipient_routes.GET_RECIPIENT_BY, search_params)
 
 
 def recipient_balance(recipient_id):
@@ -27,8 +27,8 @@ def recipient_balance_operation(recipient_id):
 
 
 def recipient_balance_operation_id(recipient_id, operation_id):
-    return handler_request.get(recipient_routes.GET_RECIPIENT_BALANCE_OPERATION_BY_ID.format(recipient_id,
-                                                                                             operation_id))
+    return \
+        handler_request.get(recipient_routes.GET_RECIPIENT_BALANCE_OPERATION_BY_ID.format(recipient_id, operation_id))
 
 
 def update_recipient(recipient_id, dictionary):
