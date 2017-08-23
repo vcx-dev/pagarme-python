@@ -1,11 +1,23 @@
-# -*- coding: utf-8 -*-
+ADDRESS = {
+    'address': {
+        'zipcode': '04571020',
+        'neighborhood': 'Dragon Village',
+        'street': 'Rua Drogon',
+        'street_number': '240'
+    }
+}
 
-ADDRESS_DICTIONARY = {'address': {'zipcode': '04571020', 'neighborhood': 'Cidade Monções',
-                                  'street': 'R. Dr. Geraldo Campos Moreira',
-                                  'street_number': '240'}}
+PHONE = {
+    'phone': {
+        'number': '987654321',
+        'ddd': '11'
+    }
+}
 
-PHONE_DICTIONARY = {'phone': {'number': '987654321', 'ddd': '11'}}
-
-CUSTOMER_DICTIONARY = {'email': 'aardvark.silva@gmail.com', 'name': 'Aardvark da Silva',
-                       'document_number': '18152564000105', 'address': ADDRESS_DICTIONARY['address'],
-                       'phone': PHONE_DICTIONARY['phone']}
+CUSTOMER = {
+    'email': 'daenerys.targaryen@gmail.com',
+    'name': 'Daenerys Targaryen',
+    'document_number': '18152564000105',
+    'address': ADDRESS['address'],
+    'phone': PHONE['phone']
+}

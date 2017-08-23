@@ -1,7 +1,6 @@
-from tests.resources.dictionaries import transaction_dictionary
 from pagarme import transaction
+from tests.resources.dictionaries import transaction_dictionary
 
-
-TRANSACTION = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION_DICTIONARY)
+TRANSACTION = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION)
 
 PAYABLES = transaction.payables(TRANSACTION['id'])
