@@ -1,9 +1,9 @@
 import requests
 
-
 TEMPORARY_COMPANY = 'https://api.pagar.me/1/companies/temporary'
 
 KEYS = {}
+
 
 def validate_response(pagarme_response):
     if pagarme_response.status_code == 200:
@@ -20,19 +20,19 @@ def create_temporary_company():
 
 def authentication_key(api_key=None, company_temporary=False):
     global KEYS
-    if company_temporary == False:
+    if company_temporary is False:
         KEYS['api_key'] = api_key
         return KEYS
-    if company_temporary == True:
+    if company_temporary is True:
         company = create_temporary_company()
         api_key = company['api_key']['test']
         KEYS['api_key'] = api_key
         return KEYS
 
 
-def post(end_point, data={}):
+def delete(end_point, data = {}):
     data['api_key'] = KEYS['api_key']
-    pagarme_response = requests.post(end_point, json=data, headers=headers())
+    pagarme_response = requests.delete(end_point, json=data, headers=headers())
     return validate_response(pagarme_response)
 
 
@@ -42,15 +42,15 @@ def get(end_point, data = {}):
     return validate_response(pagarme_response)
 
 
-def put(end_point, data = {}):
+def post(end_point, data={}):
     data['api_key'] = KEYS['api_key']
-    pagarme_response = requests.put(end_point, json=data, headers=headers())
+    pagarme_response = requests.post(end_point, json=data, headers=headers())
     return validate_response(pagarme_response)
 
 
-def delete(end_point, data = {}):
+def put(end_point, data = {}):
     data['api_key'] = KEYS['api_key']
-    pagarme_response = requests.delete(end_point, json=data, headers=headers())
+    pagarme_response = requests.put(end_point, json=data, headers=headers())
     return validate_response(pagarme_response)
 
 
