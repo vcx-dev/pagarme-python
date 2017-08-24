@@ -22,8 +22,8 @@ def find_all():
     return handler_request.get(transaction_routes.BASE_URL)
 
 
-def find_by(search_param):
-    return handler_request.get(transaction_routes.GET_TRANSACTION_BY.format(search_param))
+def find_by(search_params):
+    return handler_request.get(transaction_routes.GET_TRANSACTION_BY, search_params)
 
 
 def generate_card_hash_key():
@@ -43,7 +43,7 @@ def pay_boleto(transaction_id, dictionary):
 
 
 def payables(transaction_id):
-    return handler_request.get(transaction_routes.GET_ALL_PAYABLES_WITH_TRANSACTION_ID.format(transaction_id,))
+    return handler_request.get(transaction_routes.GET_ALL_PAYABLES_WITH_TRANSACTION_ID.format(transaction_id))
 
 
 def postbacks(transaction_id):

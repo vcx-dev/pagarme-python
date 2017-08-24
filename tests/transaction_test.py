@@ -1,6 +1,6 @@
 from pagarme import transaction
 from tests.resources.dictionaries import transaction_dictionary
-
+import time
 
 def test_calculate_installments_amount():
     array_installments = transaction.calculate_installments_amount(transaction_dictionary.CALCULATE_INTALLMENTS_AMOUNT)
@@ -36,9 +36,11 @@ def test_error_request():
 def test_find_all_postbacks():
     _transaction = transaction.create(transaction_dictionary.BOLETO_TRANSACTION)
     transaction.pay_boleto(_transaction['id'], transaction_dictionary.PAY_BOLETO)
-    _transaction_paid = transaction.find_by(_transaction['id'])
-    _postbacks = transaction.postbacks(_transaction_paid['id'])
-    assert _postbacks[0]['model_id'] == str(_transaction_paid['id'])
+    time.sleep(1)
+    search_params = {'id': _transaction['id']}
+    _transaction_paid = transaction.find_by(search_params)
+    _postbacks = transaction.postbacks(_transaction_paid[0]['id'])
+    assert _postbacks[0]['model_id'] == str(_transaction_paid[0]['id'])
 
 
 def test_find_all_transaction_events():
@@ -66,8 +68,10 @@ def test_find_all_transactions():
 
 def test_find_by():
     trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION)
-    find_trx = transaction.find_by(trx['id'])
-    assert trx['id'] == find_trx['id']
+    time.sleep(1)
+    search_params = {'id': trx['id']}
+    find_trx = transaction.find_by(search_params)
+    assert trx['id'] == find_trx[0]['id']
 
 
 def test_find_specific_payable():
@@ -91,23 +95,31 @@ def test_pay_boleto():
 def test_postbacks_redeliver():
     _transaction = transaction.create(transaction_dictionary.BOLETO_TRANSACTION)
     transaction.pay_boleto(_transaction['id'], transaction_dictionary.PAY_BOLETO)
-    _transaction_paid = transaction.find_by(_transaction['id'])
-    _postbacks = transaction.postbacks(_transaction_paid['id'])
-    redeliver = transaction.postback_redeliver(_transaction_paid['id'], _postbacks[0]['id'])
+    time.sleep(1)
+    search_params = {'id': _transaction['id']}
+    _transaction_paid = transaction.find_by(search_params)
+    _postbacks = transaction.postbacks(_transaction_paid[0]['id'])
+    redeliver = transaction.postback_redeliver(_transaction_paid[0]['id'], _postbacks[0]['id'])
     assert redeliver['status'] == 'pending_retry'
 
 
 def test_refund_transaction():
-    trx = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION)
-    refund_transaction = transaction.refund(trx['id'], transaction_dictionary.REFUNDED_OR_CAPTURE_TRANSACTION)
-    refunded_transaction = transaction.find_by(refund_transaction['id'])
-    assert 'refunded' == refunded_transaction['status']
+    trx_boleto = transaction.create(transaction_dictionary.BOLETO_TRANSACTION)
+    transaction.pay_boleto(trx_boleto['id'], transaction_dictionary.PAY_BOLETO)
+    trx_credit_card = transaction.create(transaction_dictionary.VALID_CREDIT_CARD_TRANSACTION)
+    refund_transaction = transaction.refund(trx_credit_card['id'], transaction_dictionary.REFUNDED_OR_CAPTURE_TRANSACTION)
+    time.sleep(1)
+    search_params = {'id': str(refund_transaction['id'])}
+    refunded_transaction = transaction.find_by(search_params)
+    assert 'refunded' == refunded_transaction[0]['status']
 
 
 def test_specific_postback():
     _transaction = transaction.create(transaction_dictionary.BOLETO_TRANSACTION)
     transaction.pay_boleto(_transaction['id'], transaction_dictionary.PAY_BOLETO)
-    transaction_paid = transaction.find_by(_transaction['id'])
-    postbacks = transaction.postbacks(transaction_paid['id'])
-    specific_postback = transaction.specific_postback(transaction_paid['id'], postbacks[0]['id'])
+    time.sleep(1)
+    search_params = {'id': _transaction['id']}
+    transaction_paid = transaction.find_by(search_params)
+    postbacks = transaction.postbacks(transaction_paid[0]['id'])
+    specific_postback = transaction.specific_postback(transaction_paid[0]['id'], postbacks[0]['id'])
     assert specific_postback['id'] == postbacks[0]['id']
