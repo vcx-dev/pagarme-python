@@ -14,5 +14,6 @@ def test_find_all_bank_accounts():
 
 def test_find_by():
     bank = bank_account.create(bank_account_dictionary.BANK_ACCOUNT)
-    find_bank = bank_account.find_by(bank['id'])
-    assert bank['id'] == find_bank['id']
+    search_params = {'id': str(bank['id'])}
+    find_bank = bank_account.find_by(search_params)
+    assert bank['id'] == find_bank[0]['id']

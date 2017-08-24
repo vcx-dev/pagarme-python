@@ -1,5 +1,6 @@
 from pagarme import plan
 from tests.resources.dictionaries import plan_dictionary
+import time
 
 
 def test_create_boleto_plan():
@@ -29,8 +30,10 @@ def test_find_all_plans():
 
 def test_find_by():
     _plan = plan.create(plan_dictionary.TRIAL_PLAN)
-    find_plan = plan.find_by(_plan['id'])
-    assert _plan['id'] == find_plan['id']
+    time.sleep(1)
+    search_params = {'id': str(_plan['id'])}
+    find_plan = plan.find_by(search_params)
+    assert _plan['id'] == find_plan[0]['id']
 
 
 def test_update():

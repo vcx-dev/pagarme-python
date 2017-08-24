@@ -7,5 +7,6 @@ def test_find_all_payables():
 
 
 def test_find_by():
-    find_payable = payable.find_by(payable_dictionary.PAYABLES[0]['id'])
-    assert find_payable['id'] is not None
+    search_params = {'id': str(payable_dictionary.PAYABLES[0]['id'])}
+    find_payable = payable.find_by(search_params)
+    assert str(find_payable[0]['id']) == search_params['id']

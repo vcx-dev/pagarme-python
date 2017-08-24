@@ -14,5 +14,6 @@ def test_find_all():
 
 def test_find_by():
     _card = card.create(card_dictionary.VALID_CARD)
-    find_card = card.find_by(_card['id'])
-    assert _card['id'] == find_card['id']
+    search_params = {'id': _card['id']}
+    find_card = card.find_by(search_params)
+    assert _card['id'] == find_card[0]['id']

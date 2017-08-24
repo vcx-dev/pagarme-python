@@ -18,8 +18,9 @@ def test_find_all_recipients():
 
 def test_find_by():
     _recipient = recipient.create(recipient_dictionary.RECIPIENT)
-    find_recipient = recipient.find_by(_recipient['id'])
-    assert _recipient['id'] == find_recipient['id']
+    search_params = {'id': _recipient['id']}
+    find_recipient = recipient.find_by(search_params)
+    assert _recipient['id'] == find_recipient[0]['id']
 
 
 def test_find_default_recipient():
@@ -60,6 +61,7 @@ def test_recipient_balance_operation_id():
 
 def test_update_recipient():
     _recipient = recipient.create(recipient_dictionary.RECIPIENT)
-    find_recipient = recipient.find_by(_recipient['id'])
-    updated_recipient = recipient.update_recipient(find_recipient['id'], recipient_dictionary.UPDATE_RECIPIENT)
-    assert find_recipient['transfer_enabled'] != updated_recipient['transfer_enabled']
+    search_params = {'id': str(_recipient['id'])}
+    find_recipient = recipient.find_by(search_params)
+    updated_recipient = recipient.update_recipient(find_recipient[0]['id'], recipient_dictionary.UPDATE_RECIPIENT)
+    assert find_recipient[0]['transfer_enabled'] != updated_recipient['transfer_enabled']

@@ -10,8 +10,9 @@ def test_cancel_transfer():
     transfer_dictionary.TRANSFER['recipient_id'] = \
         transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE['split_rules'][0]['recipient_id']
     _transfer = transfer.create(transfer_dictionary.TRANSFER)
-    find_transfer = transfer.find_by(_transfer['id'])
-    cancel_transfer = transfer.cancel(find_transfer['id'])
+    search_params = {'id': str(_transfer['id'])}
+    find_transfer = transfer.find_by(search_params)
+    cancel_transfer = transfer.cancel(find_transfer[0]['id'])
     assert cancel_transfer['status'] == 'canceled'
 
 
@@ -35,5 +36,6 @@ def test_find_by():
     transfer_dictionary.TRANSFER['recipient_id'] = \
         transaction_dictionary.BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE['split_rules'][0]['recipient_id']
     _transfer = transfer.create(transfer_dictionary.TRANSFER)
-    find_transfer = transfer.find_by(_transfer['id'])
-    assert _transfer['id'] == find_transfer['id']
+    search_params = {'id': str(_transfer['id'])}
+    find_transfer = transfer.find_by(search_params)
+    assert _transfer['id'] == find_transfer[0]['id']
