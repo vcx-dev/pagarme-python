@@ -55,8 +55,7 @@ def put(end_point, data = {}):
 
 
 def error(data):
-    erros = data['errors']
-    return erros
+    raise Exception(data['errors'])
 
 
 def headers():
