@@ -1,5 +1,6 @@
 from pagarme import transaction
 from tests.resources.dictionaries import transaction_dictionary
+import pytest
 import time
 
 def test_calculate_installments_amount():
@@ -29,9 +30,9 @@ def test_create_transaction_with_split_rule_percentage():
 
 
 def test_error_request():
-    error = transaction.create(transaction_dictionary.INVALID_REQUEST)
-    assert error[0]['type'] == 'invalid_parameter'
-
+    with pytest.raises(Exception) as PagarMeException:
+        transaction.create(transaction_dictionary.INVALID_REQUEST)
+    assert 'valor' in str(PagarMeException.value)
 
 def test_find_all_postbacks():
     _transaction = transaction.create(transaction_dictionary.BOLETO_TRANSACTION)
