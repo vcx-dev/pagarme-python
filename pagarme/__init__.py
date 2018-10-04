@@ -6,6 +6,7 @@ from pagarme import bank_account
 from pagarme import card
 from pagarme import customer
 from pagarme import payable
+from pagarme import payment_link
 from pagarme import plan
 from pagarme import recipient
 from pagarme import refund
