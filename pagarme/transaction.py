@@ -68,3 +68,6 @@ def specific_payable(transaction_id, payable_id):
 
 def specific_postback(transaction_id, postback_id):
     return handler_request.get(transaction_routes.GET_SPECIFIC_POSTBACK.format(transaction_id, postback_id))
+
+def review_transaction(transaction_id,dictionary):
+    return handler_request.post(transaction_routes.ANTIFRAUD_ANALYSIS.format(transaction_id),dictionary)
