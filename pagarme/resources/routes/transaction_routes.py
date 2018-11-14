@@ -31,3 +31,5 @@ PAY_BOLETO_NOTIFY = BASE_URL + '/{0}/collect_payment'
 POSTBACK_REDELIVER = BASE_URL + '/{0}/postbacks/{1}/redeliver'
 
 REFUND_TRANSACTION = BASE_URL + '/{0}/refund'
+
+ANTIFRAUD_ANALYSIS = BASE_URL + '/{0}/antifraud_analyses'
