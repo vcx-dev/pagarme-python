@@ -14,3 +14,5 @@ from pagarme import subscription
 from pagarme import transaction
 from pagarme import transfer
 from pagarme import postback
+from pagarme import sdk
+
