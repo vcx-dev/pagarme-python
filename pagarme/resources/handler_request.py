@@ -1,4 +1,5 @@
 import requests
+from pagarme import sdk
 
 TEMPORARY_COMPANY = 'https://api.pagar.me/1/companies/temporary'
 
@@ -59,5 +60,9 @@ def error(data):
 
 
 def headers():
-    _headers = {'content-type': 'application/json'}
+    _headers = {
+        'content-type': 'application/json',
+        'User-Agent': 'pagarme-python/{}'.format(sdk.VERSION),
+        'X-PagarMe-User-Agent': 'pagarme-python/{}'.format(sdk.VERSION)
+    }
     return _headers
