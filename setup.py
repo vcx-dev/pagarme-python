@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-__version__ = '3.3.0'
+__version__ = '3.3.1'
 __description__ = 'Pagar.me Python'
 __long_description__ = 'Python library for Pagar.me API'
 
@@ -9,7 +9,6 @@ __author__ = 'Murilo Henrique, Victor Messina'
 __author_email__ = 'suporte@pagar.me'
 __special_things__ = 'Derek Stavis, Rodrigo Amaral'
 
-requires = [i.strip() for i in open("requirements.txt").readlines()]
 
 testing_extras = [
     'pytest',
@@ -30,7 +29,7 @@ setup(
     keywords='Payment, pagarme',
     include_package_data=True,
     zip_safe=False,
-    install_requires=requires,
+    install_requires=['requests>2.20.0'],
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
