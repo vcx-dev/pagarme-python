@@ -7,7 +7,8 @@ from tests.resources.dictionaries import recipient_dictionary
 BOLETO_TRANSACTION = {
     'amount': '1000000',
     'payment_method': 'boleto',
-    'postback_url': pagarme_test.create_postback_url()
+    'postback_url': pagarme_test.create_postback_url(),
+    'customer': customer_dictionary.CUSTOMER,
 }
 
 CALCULATE_INTALLMENTS_AMOUNT = {
@@ -54,7 +55,8 @@ SPLIT_RULE_PERCENTAGE = [
 BOLETO_TRANSACTION_SPLIT_RULE_PERCENTAGE = {
     'amount': BOLETO_TRANSACTION['amount'],
     'payment_method': BOLETO_TRANSACTION['payment_method'],
-    'split_rules': SPLIT_RULE_PERCENTAGE
+    'split_rules': SPLIT_RULE_PERCENTAGE,
+    'customer': customer_dictionary.CUSTOMER,
 }
 
 INVALID_CREDIT_CARD_TRANSACTION = {
@@ -68,7 +70,8 @@ INVALID_CREDIT_CARD_TRANSACTION = {
 
 INVALID_REQUEST = {
     'amount': '1',
-    'payment_method': BOLETO_TRANSACTION['payment_method']
+    'payment_method': BOLETO_TRANSACTION['payment_method'],
+    'customer': customer_dictionary.CUSTOMER
 }
 
 PAY_BOLETO = {
