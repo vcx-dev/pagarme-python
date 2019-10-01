@@ -28,11 +28,10 @@ def test_find_all_plans():
     assert all_plans is not None
 
 
-def test_find_by():
+def test_find_by(retry):
     _plan = plan.create(plan_dictionary.TRIAL_PLAN)
-    time.sleep(3)
     search_params = {'id': str(_plan['id'])}
-    find_plan = plan.find_by(search_params)
+    find_plan = retry(lambda: plan.find_by(search_params))
     assert _plan['id'] == find_plan[0]['id']
 
 

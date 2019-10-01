@@ -21,17 +21,15 @@ def test_find_all_payment_links():
     all_payment_links = payment_link.find_all()
     assert all_payment_links is not None
 
-def test_find_by():
+def test_find_by(retry):
     pl = payment_link.create(payment_link_dictionary.VALID_PAYMENT_LINK)
-    time.sleep(3)
     search_params = {'id': pl['id']}
-    find_pl = payment_link.find_by(search_params)
+    find_pl = retry(lambda: payment_link.find_by(search_params))
     assert pl['id'] == find_pl[0]['id']
 
-def test_find_by_id():
+def test_find_by_id(retry):
     pl = payment_link.create(payment_link_dictionary.VALID_PAYMENT_LINK)
-    time.sleep(3)
-    found_pl = payment_link.find_by_id(pl['id'])
+    found_pl = retry(lambda: payment_link.find_by_id(pl['id']))
     assert pl['id'] == found_pl['id']
 
 def test_update():
