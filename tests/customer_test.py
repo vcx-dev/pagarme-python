@@ -13,9 +13,8 @@ def test_find_all_customers():
     assert all_customers is not None
 
 
-def test_find_by():
+def test_find_by(retry):
     _customer = customer.create(customer_dictionary.CUSTOMER)
-    time.sleep(5)
     search_params = {'id': str(_customer['id'])}
-    find_customer = customer.find_by(search_params)
+    find_customer = retry(lambda: customer.find_by(search_params))
     assert _customer['id'] == find_customer[0]['id']

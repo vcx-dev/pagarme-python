@@ -22,11 +22,10 @@ def test_create_credit_card_subscription():
     assert _subscription['payment_method'] == 'credit_card'
 
 
-def test_create_split_rule_percentage_subscription():
+def test_create_split_rule_percentage_subscription(retry):
     _subscription = subscription.create(subscription_dictionary.CREDIT_CARD_PERCENTAGE_SPLIT_RULE_SUBSCRIPTION)
-    time.sleep(5)
     search_params = {'id': str(_subscription['current_transaction']['id'])}
-    _transaction = transaction.find_by(search_params)
+    _transaction = retry(lambda: transaction.find_by(search_params))
     assert _transaction[0]['split_rules'] is not None
 
 
@@ -36,31 +35,30 @@ def test_find_all():
     assert all_subscriptions is not None
 
 
-def test_find_by():
+def test_find_by(retry):
     _subscription = subscription.create(subscription_dictionary.CREDIT_CARD_SUBSCRIPTION)
-    time.sleep(8)
     search_params = {'id': str(_subscription['id'])}
-    find_subscription = subscription.find_by(search_params)
+    find_subscription = retry(lambda: subscription.find_by(search_params))
     assert find_subscription[0]['id'] == _subscription['id']
 
 
-def test_postbacks_find_all():
+def test_postbacks_find_all(retry):
     _subscription = subscription.create(subscription_dictionary.BOLETO_SUBSCRIPTION)
     transaction.pay_boleto(_subscription['current_transaction']['id'], transaction_dictionary.PAY_BOLETO)
-    time.sleep(5)
-    _postbacks = subscription.postbacks(_subscription['id'])
+    _postbacks = retry(lambda: subscription.postbacks(_subscription['id']))
     assert _postbacks[0]['model_id'] == str(_subscription['id'])
 
 
-def test_postbacks_redeliver():
+def test_postbacks_redeliver(retry):
     _subscription = subscription.create(subscription_dictionary.BOLETO_SUBSCRIPTION)
-    time.sleep(5)
-    _transaction = subscription.transactions(_subscription['id'])
+    _transaction = retry(lambda: subscription.transactions(_subscription['id']))
     assert _transaction[0]['status'] == 'waiting_payment'
     transaction.pay_boleto(_transaction[0]['id'], transaction_dictionary.PAY_BOLETO)
-    time.sleep(8)
     search_params = {'id': _transaction[0]['id']}
-    _transaction_paid = transaction.find_by(search_params)
+    _transaction_paid = retry(
+        lambda: transaction.find_by(search_params),
+        retry_if_result=lambda value: value[0]['status'] == 'waiting_payment'
+    )
     assert _transaction_paid[0]['status'] == 'paid'
     _postbacks = subscription.postbacks(_subscription['id'])
     redeliver = subscription.postback_redeliver(_subscription['id'], _postbacks[0]['id'])
