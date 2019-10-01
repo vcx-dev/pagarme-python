@@ -15,7 +15,7 @@ def test_find_all_customers():
 
 def test_find_by():
     _customer = customer.create(customer_dictionary.CUSTOMER)
-    time.sleep(3)
+    time.sleep(5)
     search_params = {'id': str(_customer['id'])}
     find_customer = customer.find_by(search_params)
     assert _customer['id'] == find_customer[0]['id']
