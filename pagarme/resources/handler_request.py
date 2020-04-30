@@ -1,22 +1,8 @@
-import requests
-from pagarme import sdk
+from .requests_retry import requests_retry_session
 
 TEMPORARY_COMPANY = 'https://api.pagar.me/1/companies/temporary'
 
 KEYS = {}
-
-
-def headers():
-    _headers = {
-        'User-Agent': 'pagarme-python/{}'.format(sdk.VERSION),
-        'X-PagarMe-User-Agent': 'pagarme-python/{}'.format(sdk.VERSION)
-    }
-    return _headers
-
-
-session = requests.Session()
-session.headers.update(headers())
-
 
 def validate_response(pagarme_response):
     if pagarme_response.ok:
@@ -26,7 +12,7 @@ def validate_response(pagarme_response):
 
 
 def create_temporary_company():
-    company = session.post(TEMPORARY_COMPANY)
+    company = requests_retry_session().post(TEMPORARY_COMPANY)
     valid_company = validate_response(company)
     return valid_company
 
@@ -45,25 +31,25 @@ def authentication_key(api_key=None, company_temporary=False):
 
 def delete(end_point, data = {}):
     data['api_key'] = KEYS['api_key']
-    pagarme_response = session.delete(end_point, json=data)
+    pagarme_response = requests_retry_session().delete(end_point, json=data)
     return validate_response(pagarme_response)
 
 
 def get(end_point, data = {}):
     data['api_key'] = KEYS['api_key']
-    pagarme_response = session.get(end_point, json=data)
+    pagarme_response = requests_retry_session().get(end_point, json=data)
     return validate_response(pagarme_response)
 
 
 def post(end_point, data={}):
     data['api_key'] = KEYS['api_key']
-    pagarme_response = session.post(end_point, json=data)
+    pagarme_response = requests_retry_session().post(end_point, json=data)
     return validate_response(pagarme_response)
 
 
 def put(end_point, data = {}):
     data['api_key'] = KEYS['api_key']
-    pagarme_response = session.put(end_point, json=data)
+    pagarme_response = requests_retry_session().put(end_point, json=data)
     return validate_response(pagarme_response)
 
 
