@@ -14,7 +14,8 @@ $ pip install pagarme-python
 
 ## Documentation
 
-* [API Guide](https://docs.pagar.me/)
+* [Product Guide](https://docs.pagar.me/docs)
+* [API Guide](https://docs.pagar.me/reference)
 
 ## Support
 If you have any problem or suggestion please open an issue [here](https://github.com/pagarme/pagarme-python/issues).
