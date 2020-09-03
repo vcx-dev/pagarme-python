@@ -6,8 +6,8 @@ from pagarme import sdk
 
 def headers():
     _headers = {
-        'User-Agent': 'pagarme-python/{}'.format(sdk.VERSION),
-        'X-PagarMe-User-Agent': 'pagarme-python/{}'.format(sdk.VERSION)
+        'User-Agent': 'pagarme-python/{} python/{}'.format(sdk.VERSION, sys.version.split(' ',1)[0]),
+        'X-PagarMe-User-Agent': 'pagarme-python/{} python/{}'.format(sdk.VERSION, sys.version.split(' ',1)[0]),
     }
     return _headers
 
