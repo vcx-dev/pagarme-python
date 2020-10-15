@@ -899,7 +899,7 @@ Clientes representam os usuários de sua loja, ou negócio. Este objeto contém 
 ### Criando um link de pagamento
 
 ```python
-  paymentLink = pagarme.paymentLinks.create({
+  paymentLink = pagarme.payment_link.create({
     'amount' : 10000,
     'items' : {
       {
