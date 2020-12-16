@@ -111,95 +111,89 @@ Nesta seção será explicado como utilizar transações no Pagar.me com essa bi
 ### Criando uma transação
 
 ```python
-  transaction = pagarme.transaction.create({
-    "amount": "21000",
-    "card_number": "4111111111111111",
-    "card_cvv": "123",
-    "card_expiration_date": "0922",
-    "card_holder_name": "Morpheus Fishburne",
-    "customer": {
-      "external_id": "#3311",
-      "name": "Morpheus Fishburne",
-      "type": "individual",
+transaction = pagarme.transaction.create({
+  "amount": "21000",
+  "card_number": "4111111111111111",
+  "card_cvv": "123",
+  "card_expiration_date": "0922",
+  "card_holder_name": "Morpheus Fishburne",
+  "customer": {
+    "external_id": "#3311",
+    "name": "Morpheus Fishburne",
+    "type": "individual",
+    "country": "br",
+    "email": "mopheus@nabucodonozor.com",
+    "documents": [
+      {
+        "type": "cpf",
+        "number": "30621143049"
+      }
+    ],
+    "phone_numbers": ["+5511999998888", "+5511888889999"],
+    "birthday": "1965-01-01"
+  },
+  "billing": {
+    "name": "Trinity Moss",
+    "address": {
       "country": "br",
-      "email": "mopheus@nabucodonozor.com",
-      "documents": [
-        {
-          "type": "cpf",
-          "number": "30621143049"
-        }
-      ],
-      "phone_numbers": ["+5511999998888", "+5511888889999"],
-      "birthday": "1965-01-01"
+      "state": "sp",
+      "city": "Cotia",
+      "neighborhood": "Rio Cotia",
+      "street": "Rua Matrix",
+      "street_number": "9999",
+      "zipcode": "06714360"
+    }
+  },
+  "shipping": {
+    "name": "Neo Reeves",
+    "fee": "1000",
+    "delivery_date": "2000-12-21",
+    "expedited": True,
+    "address": {
+      "country": "br",
+      "state": "sp",
+      "city": "Cotia",
+      "neighborhood": "Rio Cotia",
+      "street": "Rua Matrix",
+      "street_number": "9999",
+      "zipcode": "06714360"
+    }
+  },
+  "items": [
+    {
+      "id": "r123",
+      "title": "Red pill",
+      "unit_price": "10000",
+      "quantity": "1",
+      "tangible": True
     },
-    "billing": {
-      "name": "Trinity Moss",
-      "address": {
-        "country": "br",
-        "state": "sp",
-        "city": "Cotia",
-        "neighborhood": "Rio Cotia",
-        "street": "Rua Matrix",
-        "street_number": "9999",
-        "zipcode": "06714360"
-      }
-    },
-    "shipping": {
-      "name": "Neo Reeves",
-      "fee": "1000",
-      "delivery_date": "2000-12-21",
-      "expedited": True,
-      "address": {
-        "country": "br",
-        "state": "sp",
-        "city": "Cotia",
-        "neighborhood": "Rio Cotia",
-        "street": "Rua Matrix",
-        "street_number": "9999",
-        "zipcode": "06714360"
-      }
-    },
-    "items": [
-      {
-        "id": "r123",
-        "title": "Red pill",
-        "unit_price": "10000",
-        "quantity": "1",
-        "tangible": True
-      },
-      {
-        "id": "b123",
-        "title": "Blue pill",
-        "unit_price": "10000",
-        "quantity": "1",
-        "tangible": True
-      }
-    ]
-  })
-
-  print(transaction)
+    {
+      "id": "b123",
+      "title": "Blue pill",
+      "unit_price": "10000",
+      "quantity": "1",
+      "tangible": True
+    }
+  ]
+})
 ```
 
 ### Capturando uma transação
 
 ```python
-  transactionCapture = pagarme.transaction.capture(
-      'ID_TRANSAÇÃO_OU_TOKEN',
-      {"amount": "Valor a ser capturado"}
-  )
-
-  print(transactionCapture)
+transactionCapture = pagarme.transaction.capture(
+    'ID_TRANSAÇÃO_OU_TOKEN',
+    {"amount": "Valor a ser capturado"}
+)
 ```
 
 ### Estornando uma transação
 
 ```python
-  transactionRefund = pagarme.transaction.refund(
-      'ID_TRANSAÇÃO',
-      {"amount": "Valor a ser estornado"}
-  )
-
-  print(transactionRefund)
+transactionRefund = pagarme.transaction.refund(
+  'ID_TRANSAÇÃO',
+  {"amount": "Valor a ser estornado"}
+)
 ```
 
 Esta funcionalidade também funciona com estornos parciais, ou estornos com split. Por exemplo:
@@ -208,8 +202,8 @@ Esta funcionalidade também funciona com estornos parciais, ou estornos com spli
 
 ```python
 pagarme.transaction.refund(
-    'ID_TRANSACAO',
-    {"amount": "Valor a ser estornado parcialmente"}
+  'ID_TRANSACAO',
+  {"amount": "Valor a ser estornado parcialmente"}
 )
 ```
 
@@ -221,17 +215,17 @@ pagarme.transaction.refund(
   {
     "amount": "Valor a ser estornado",
     "split_rules": [
-        {
-            "id": "sr_cj41w9m4d01ta316d02edaqav",
-            "amount": "60000",
-            "recipient_id": "re_cj2wd5ul500d4946do7qtjrvk"
-        },
-        {
-            "id": "sr_cj41w9m4e01tb316dl2f2veyz",
-            "amount": "11000",
-            "recipient_id": "re_cj2wd5u2600fecw6eytgcbkd0",
-            "charge_processing_fee": "true"
-        }
+      {
+          "id": "ID_SPLIT_RULE",
+          "amount": "60000",
+          "recipient_id": "ID_RECEBEDOR"
+      },
+      {
+          "id": "ID_SPLIT_RULE",
+          "amount": "11000",
+          "recipient_id": "ID_RECEBEDOR",
+          "charge_processing_fee": "true"
+      }
     ]
   }
 )
@@ -240,49 +234,37 @@ pagarme.transaction.refund(
 ### Retornando Transações
 
 ```python
-  transactions = pagarme.transaction.find_all()
-
-  print(transactions)
+transactions = pagarme.transaction.find_all()
 ```
 
 ### Retornando uma transação 
 
 ```python
-  transaction = pagarme.transaction.find_by({"id":"ID_TRANSAÇÃO"})
-
-  print(transaction)
+transaction = pagarme.transaction.find_by({"id":"ID_TRANSAÇÃO"})
 ```
 
 ### Retornando recebíveis de uma transação
 
 ```python
-  transactionPayables = pagarme.transaction.payables('ID_TRANSAÇÃO')
-
-  print(transactionPayables)
+transactionPayables = pagarme.transaction.payables('ID_TRANSAÇÃO')
 ```
 
 ### Retornando um recebível de uma transação
 
 ```python
-  transactionPayable  = pagarme.transaction.specific_payable('ID_TRANSAÇÃO', "ID_DO_RECEBIVEL")
-
-  print(transactionPayable)
+transactionPayable  = pagarme.transaction.specific_payable('ID_TRANSAÇÃO', "ID_DO_RECEBIVEL")
 ```
 
 ### Retornando o histórico de operações de uma transação
 
 ```python
-  transactionOperations = pagarme.transaction.operations('ID_TRANSAÇÃO')
-
-  print(transactionOperations)
+transactionOperations = pagarme.transaction.operations('ID_TRANSAÇÃO')
 ```
 
 ### Retornando eventos de uma transação 
 
 ```python
-  transacionEvents = pagarme.transaction.events("ID_TRANSAÇÃO")
-
-  print(transactionEvents)
+transacionEvents = pagarme.transaction.events("ID_TRANSAÇÃO")
 ```
 
 ### Calculando pagamentos parcelados
@@ -308,28 +290,23 @@ Então, o valor a ser pago na quinta parcela seria de 15% da compra, totalizando
 Você pode usar o código abaixo caso queira utilizar essa rota:
 
 ```python
-  transactionCalculate = pagarme.transaction.calculate_installments_amount({
-      "amount": "10000",
-      "free_installments": "1",
-      "interest_rate": "13",
-      "max_installments": "3"
-    })
+transactionCalculate = pagarme.transaction.calculate_installments_amount({
+    "amount": "10000",
+    "free_installments": "1",
+    "interest_rate": "13",
+    "max_installments": "3"
   })
-
-  print(transactionCalculate)
+})
 ```
 
 ### Testando pagamento de boletos
 
 ```python
-  transactionPayBoleto = pagarme.transaction.pay_boleto(
-      "ID_TRANSAÇÃO",
-      {"status": "paid"}
-  )
-
-  print(transactionPayBoleto)
+transactionPayBoleto = pagarme.transaction.pay_boleto(
+    "ID_TRANSAÇÃO",
+    {"status": "paid"}
+)
 ```
-
 
 ## Cartões
 
@@ -339,30 +316,24 @@ Sempre que você faz uma requisição através da nossa API, nós guardamos as i
 ### Criando Cartões
 
 ```python
-  card = pagarme.card.create({
-      "card_expiration_date": "1122",
-      "card_number": "4018720572598048",
-      "card_cvv": "123",
-      "card_holder_name": "Cersei Lannister"
-  })
-
-  print(card)
+card = pagarme.card.create({
+    "card_expiration_date": "1122",
+    "card_number": "4018720572598048",
+    "card_cvv": "123",
+    "card_holder_name": "Cersei Lannister"
+})
 ```
 
 ### Retornando cartões
 
 ```python
-  cards = pagarme.card.find_all()
-
-  print(cards)
+cards = pagarme.card.find_all()
 ```
 
 ### Retornando um cartão
 
 ```python
-  card = pagarme.card.find_by({"id": "card_id"})
-
-  print(card)
+card = pagarme.card.find_by({"id": "ID_CARTÃO"})
 ```
 
 ## Planos
@@ -373,42 +344,35 @@ Representa uma configuração de recorrência a qual um cliente consegue assinar
 ### Criando planos
 
 ```python
-  plan = pagarme.plan.create({
-      "amount": "15000",
-      "days": "30",
-      "name": "Curso com o Alto Pardal"
-  })
-
-  print(plan)
+plan = pagarme.plan.create({
+    "amount": "15000",
+    "days": "30",
+    "name": "Curso com o Alto Pardal"
+})
 ```
 
 ### Retornando planos
 
 ```python
-  plans = pagarme.plan.find_all()
-
-  print(plans)
+plans = pagarme.plan.find_all()
 ```
 
 ### Retornando um plano
 
 ```python
-  plan = pagarme.plan.find_by({"id":"PLAN_ID"})
-
-  print(plan)
+plan = pagarme.plan.find_by({"id":"ID_PLANO"})
 ```
 
 ### Atualizando um plano
 
 ```python
-  planUpdate = pagarme.plan.update(
-    "plan_id",
-    {
-        "name": "Esgrima com Syrio Forel",
-        "trial_days": "7"
-    })
-
-  print(planUpdate)
+planUpdate = pagarme.plan.update(
+  "ID_PLANO",
+  {
+      "name": "Esgrima com Syrio Forel",
+      "trial_days": "7"
+  }
+)
 ```
 
 ## Assinaturas
@@ -416,124 +380,110 @@ Representa uma configuração de recorrência a qual um cliente consegue assinar
 ### Criando assinaturas
 
 ```python
-  subscription = pagarme.subscription.create({
-      "card_id": "card_cj6qvosem04w3nu6dm20nu8od",
-      "customer":{
-          "email":"jorah.mormont@gameofthrones.com",
-          "name":"Sir Jorah Mormont",
-          "document_number":"18152564000105",
-          "address":{
-              "zipcode":"04571020",
-              "neighborhood":"Cidade Moncoes",
-              "street":"R. Dr. Geraldo Campos Moreira",
-              "street_number":"240"
-          },
-          "phone": {
-              "number":"987654321",
-              "ddd":"11"
-          }
+subscription = pagarme.subscription.create({
+  "card_id": "card_cj6qvosem04w3nu6dm20nu8od",
+  "customer":{
+      "email":"jorah.mormont@gameofthrones.com",
+      "name":"Sir Jorah Mormont",
+      "document_number":"18152564000105",
+      "address":{
+          "zipcode":"04571020",
+          "neighborhood":"Cidade Moncoes",
+          "street":"R. Dr. Geraldo Campos Moreira",
+          "street_number":"240"
       },
-      "payment_method": "credit_card",
-      "plan_id": "201836",
-      "postback_url": "http://requestb.in/zyn5obzy"
-  })
-
-  print(subscription)
+      "phone": {
+          "number":"987654321",
+          "ddd":"11"
+      }
+  },
+  "payment_method": "credit_card",
+  "plan_id": "201836",
+  "postback_url": "http://requestb.in/zyn5obzy"
+})
 ```
 
 ### Split com assinatura
 
 ```python
-  subscriptionSplit = pagarme.subscription.create({
-      "card_id": "card_cj6qvosem04w3nu6dm20nu8od",
-      "customer":{
-          "email":"aardvark.silva@gmail.com",
-          "name":"Sir Jorah Mormont",
-          "document_number":"18152564000105",
-          "address":{
-              "zipcode":"04571020",
-              "neighborhood":"Cidade Moncoes",
-              "street":"R. Dr. Geraldo Campos Moreira",
-              "street_number":"240"
-          },
-          "phone": {
-              "number":"987654321",
-              "ddd":"11"
-          }
+subscriptionSplit = pagarme.subscription.create({
+  "card_id": "ID_CARTÃO",
+  "customer":{
+      "email":"aardvark.silva@gmail.com",
+      "name":"Sir Jorah Mormont",
+      "document_number":"18152564000105",
+      "address":{
+          "zipcode":"04571020",
+          "neighborhood":"Cidade Moncoes",
+          "street":"R. Dr. Geraldo Campos Moreira",
+          "street_number":"240"
       },
-      "split_rules":[
-          {
-              "recipient_id": "re_cj6p5tpqj0bp3oi6euostjng1",
-              "percentage": "25"
-          },
-          {
-              "recipient_id": "re_cj6cbuz041cs5mx6dx2fh5asx",
-              "percentage": "75"
-          }
-      ],
-      "payment_method": "credit_card",
-      "plan_id": "201836",
-      "postback_url": "http://requestb.in/zyn5obzy"
-  })
-
-  print(subscriptionSplit)
+      "phone": {
+          "number":"987654321",
+          "ddd":"11"
+      }
+  },
+  "split_rules":[
+      {
+          "recipient_id": "ID_RECEBEDOR",
+          "percentage": "25"
+      },
+      {
+          "recipient_id": "ID_RECEBEDOR",
+          "percentage": "75"
+      }
+  ],
+  "payment_method": "credit_card",
+  "plan_id": "ID_PLANO",
+  "postback_url": "http://requestb.in/zyn5obzy"
+})
 ```
-
 
 ### Retornando uma assinatura
 
 ```python
-  subscription = pagarme.subscription.find_by({"id": "ID_DA_SUBSCRIPTION"})
+  subscription = pagarme.subscription.find_by({"id": "ID_ASSINATURA"})
 
-  print(subscription)
 ```
-
 
 ### Retornando assinaturas
 
 ```python
   subscriptions = pagarme.subscription.find_all()
 
-  print(subscriptions)
 ```
-
 
 ### Atualizando uma assinatura
 
 ```python
-  subscriptionUpdate= pagarme.subscription.update(
-      "subscription_id",
-      {
-          "card_id": "card_cj6p5853z0coko66e7h767986",
-          "payment_method": "credit_card",
-          "plan_id": "201836"
-      }
-  )
-
-  print(subscriptionUpdate)
+subscriptionUpdate= pagarme.subscription.update(
+  "ID_ASSINATURA",
+  {
+      "card_id": "ID_CARTÃO",
+      "payment_method": "credit_card",
+      "plan_id": "ID_PLANO"
+  }
+)
 ```
 
 ### Cancelando uma assinatura
 
 ```python
-  subscriptionCancel = pagarme.subscription.cancel("ID_DA_SUBSCRIPTION")
+  subscriptionCancel = pagarme.subscription.cancel("ID_ASSINATURA")
 
-  print(subscriptionCancel)
 ```
 
 ### Transações de assinatura
 ```python
-  subscriptionTransactions = pagarme.subscription.transactions("ID_DA_SUBSCRIPTION")
+  subscriptionTransactions = pagarme.subscription.transactions("ID_ASSINATURA")
 
-  print(subscriptionTransactions)
 ```
 
 ### Pulando cobranças
 
 ```python
-  subscriptionSettleCharges = pagarme.subscription.settle_charges("ID_DA_SUBSCRIPTION")
+  subscriptionSettleCharges = pagarme.subscription.settle_charges("ID_ASSINATURA")
 
-  print(subscriptionSettleCharges)
 ```
 
 ## Postbacks
@@ -551,33 +501,25 @@ Para obter informações sobre postbacks, 3 informações serão necessárias, s
 ### Retornando postbacks
 
 ```python
-  postbacks = pagarme.transaction.postbacks("ID_DA_TRANSAÇÃO")
-
-  print (postbacks)
+postbacks = pagarme.transaction.postbacks("ID_DA_TRANSAÇÃO")
 ```
 
 ### Retornando um postback
 
 ```python
-  postback = pagarme.transaction.specific_postback("transaction_id", "postback_id")
-
-  print (postback)
+postback = pagarme.transaction.specific_postback("ID_DA_TRANSAÇÃO", "ID_POSTBACK")
 ```
 
 ### Reenviando um Postback
 
 ```python
-  postbackRedeliver = pagarme.transaction.postback_redeliver("transaction_id", "postback_id")
-
-  print(postbackRedeliver)
+postbackRedeliver = pagarme.transaction.postback_redeliver("ID_DA_TRANSAÇÃO", "ID_POSTBACK")
 ```
 
 ### Validando uma requisição de postback
 
 ```python
-  postbackValidate = pagarme.postback.validate("signature", "payload", "api_key")
-
-  print(postbackValidate)
+postbackValidate = pagarme.postback.validate("signature", "payload", "api_key")
 ```
 
 ## Saldo do recebedor principal
@@ -585,9 +527,7 @@ Para obter informações sobre postbacks, 3 informações serão necessárias, s
 Para saber o saldo de sua conta, você pode utilizar esse código:
 
 ```python
-  balance = pagarme.balance.default_recipient_balance()
-
-  print(balance)
+balance = pagarme.balance.default_recipient_balance()
 ```
 
 Observação: o código acima serve somente de exemplo para que o processo de validação funcione. Recomendamos que utilize ferramentas fornecidas por bibliotecas ou frameworks para recuperar estas informações de maneira mais adequada.
@@ -599,17 +539,13 @@ Com este objeto você pode acompanhar todas as movimentações financeiras ocorr
 ### Histórico das operações
 
 ```python
-  balanceOperations = pagarme.balance_operation.find_all()
-
-  print(balanceOperations)
+balanceOperations = pagarme.balance_operation.find_all()
 ```
 
 ### Histórico específico de uma operação
 
 ```python
-  balanceOperation = pagarme.balance_operation.find_by({"id": "balance_operation_id"})
-
-  print(balanceOperation)
+balanceOperation = pagarme.balance_operation.find_by({"id": "ID_BALANCE_OPERATION"})
 ```
 
 ## Recebível
@@ -619,17 +555,13 @@ Objeto contendo os dados de um recebível. O recebível (payable) é gerado auto
 ### Retornando recebíveis
 
 ```python
-  payables = pagarme.payable.find_all()
-
-  print(payables)
+payables = pagarme.payable.find_all()
 ```
 
 ### Retornando um recebível
 
 ```python
-  payable = pagarme.payable.find_by({"id": "payable_id"})
-
-  print(payable)
+payable = pagarme.payable.find_by({"id": "ID_RECEBÍVEL"})
 ```
 
 ## Transferências
@@ -638,36 +570,28 @@ Transferências representam os saques de sua conta.
 ### Criando uma transferência
 
 ```python
-  transfer = pagarme.transfer.create({
-      'amount': '10000',
-      'recipient_id': 'RECIPIENT_ID'
-  })
-
-  print(transfer)
+transfer = pagarme.transfer.create({
+    'amount': '10000',
+    'recipient_id': 'ID_RECEBEDOR'
+})
 ```
 
 ### Retornando transferências
 
 ```python
-  transfers = pagarme.transfer.find_all()
-
-  print(transfers)
+transfers = pagarme.transfer.find_all()
 ```
 
 ### Retornando uma transferência
 
 ```python
-  transfer = pagarme.transfer.find_by({"id": "TRANSFER_ID"})
-
-  print(transfer)
+transfer = pagarme.transfer.find_by({"id": "ID_TRANSFERÊNCIA"})
 ```
 
 ### Cancelando uma transferência
 
 ```python
-  transferCancel = pagarme.transfer.cancel("TRANSFER_ID")
-
-  print(transferCancel)
+transferCancel = pagarme.transfer.cancel("ID_TRANSFERÊNCIA")
 ```
 
 ## Antecipações
@@ -677,62 +601,50 @@ Para entender o que são as antecipações, você deve acessar esse [link](https
 ### Criando uma antecipação
 
 ```python
-  bulkAnticipation = pagarme.bulk_anticipation.create('RECIPIENT_ID', {
-    'payment_date': '1462999741870',
-    'timeframe': 'start',
-    'requested_amount': '100000'
-  })
-
-  print(bulkAnticipation)
+bulkAnticipation = pagarme.bulk_anticipation.create('ID_RECEBEDOR', {
+  'payment_date': '1462999741870',
+  'timeframe': 'start',
+  'requested_amount': '100000'
+})
 ```
 
 ### Obtendo os limites de antecipação
 
 ```python
-  bulkAnticipationData = {
-      'payment_date': 1503921427000,
-      'timeframe': 'start'
-  }
+bulkAnticipationData = {
+    'payment_date': 1503921427000,
+    'timeframe': 'start'
+}
 
-  defaultRecipientId = pagarme.recipient.default_recipient()['test'] #test ou live
-  limits = pagarme.bulk_anticipation.limits(defaultRecipientId,  bulkAnticipationData)
-
-  print(limits)
+defaultRecipientId = pagarme.recipient.default_recipient()['test'] #test ou live
+limits = pagarme.bulk_anticipation.limits(defaultRecipientId,  bulkAnticipationData)
 ```
 
 ### Confirmando uma antecipação building
 
 ```python
-  defaultRecipientId = pagarme.recipient.default_recipient()['test'] #test ou live
-  confirmBulkAnticipation = pagarme.bulk_anticipation.confirm(defaultRecipientId, "bulk_anticipation_id")
-
-  print(confirmBulkAnticipation)
+defaultRecipientId = pagarme.recipient.default_recipient()['test'] #test ou live
+confirmBulkAnticipation = pagarme.bulk_anticipation.confirm(defaultRecipientId, "ID_ANTECIPAÇÃO")
 ```
 
 ### Cancelando uma antecipação pending
 
 ```python
-  canceledBulkAnticipation = pagarme.bulk_anticipation.cancel(recipient['id'], bulk_anticipation['id'])
-
-  print(canceledBulkAnticipation)
+canceledBulkAnticipation = pagarme.bulk_anticipation.cancel(recipient['id'], bulk_anticipation['id'])
 ```
 
 ### Deletando uma antecipação building
 
 ```python
-  defaultRecipientId = pagarme.recipient.default_recipient()['test'] #test ou live
-  deleteBulkAnticipation = pagarme.bulk_anticipation.delete(defaultRecipientId, "bulk_anticipation_id")
-
-  print (deleteBulkAnticipation)
+defaultRecipientId = pagarme.recipient.default_recipient()['test'] #test ou live
+deleteBulkAnticipation = pagarme.bulk_anticipation.delete(defaultRecipientId, "ID_ANTECIPAÇÃO")
 ```
 
 ### Retornando antecipações
 
 ```python
-  defaultRecipientId = pagarme.recipient.default_recipient()['test']
-  bulkAnticipations = pagarme.bulk_anticipation.find_all(defaultRecipientId)
-
-  print(bulkAnticipations)
+defaultRecipientId = pagarme.recipient.default_recipient()['test']
+bulkAnticipations = pagarme.bulk_anticipation.find_all(defaultRecipientId)
 ```
 
 ## Contas bancárias
@@ -742,33 +654,27 @@ Contas bancárias identificam para onde será enviado o dinheiro de futuros paga
 ### Criando uma conta bancária
 
 ```python
-  bankAccount = pagarme.bank_account.create({
-      'agencia': '0932',
-      'agencia_dv': '5',
-      'bank_code': '341',
-      'conta': '58054',
-      'conta_dv': '1',
-      'document_number': '26268738888',
-      'legal_name': 'HOUSE TARGARYEN'
-  })
-
-  print(bankAccount)
+bankAccount = pagarme.bank_account.create({
+  'agencia': '0932',
+  'agencia_dv': '5',
+  'bank_code': '341',
+  'conta': '58054',
+  'conta_dv': '1',
+  'document_number': '26268738888',
+  'legal_name': 'HOUSE TARGARYEN'
+})
 ```
 
 ### Retornando uma conta bancária
 
 ```python
-  bankAccount = pagarme.bank_account.find_by({"id":"bank_account_id"})
-
-  print(bankAccount)
+bankAccount = pagarme.bank_account.find_by({"id":"ID_BANK_ACCOUNT"})
 ```
 
 ### Retornando contas bancárias
 
 ```python
-  bankAccounts = pagarme.bank_account.find_all()
-
-  print(bankAccounts)
+bankAccounts = pagarme.bank_account.find_all()
 ```
 
 ## Recebedores
@@ -778,78 +684,64 @@ Para dividir uma transação entre várias entidades, é necessário ter um rece
 ### Criando um recebedor
 
 ```python
-  recipient = pagarme.recipient.create({
-      'anticipatable_volume_percentage': '80',
-      'automatic_anticipation_enabled': 'true',
-      'transfer_day': '5',
-      'transfer_enabled': 'true',
-      'transfer_interval': 'weekly',
-      'bank_account':{
-          'agencia': '0932',
-          'agencia_dv': '5',
-          'bank_code': '341',
-          'conta': '58054',
-          'conta_dv': '1',
-          'document_number': '26268738888',
-          'legal_name': 'HOUSE TARGARYEN'
-      }
-  })
-
-  print(recipient)
+recipient = pagarme.recipient.create({
+  'anticipatable_volume_percentage': '80',
+  'automatic_anticipation_enabled': 'true',
+  'transfer_day': '5',
+  'transfer_enabled': 'true',
+  'transfer_interval': 'weekly',
+  'bank_account':{
+      'agencia': '0932',
+      'agencia_dv': '5',
+      'bank_code': '341',
+      'conta': '58054',
+      'conta_dv': '1',
+      'document_number': '26268738888',
+      'legal_name': 'HOUSE TARGARYEN'
+  }
+})
 ```
 
 ### Retornando recebedores
 
 ```python
-  recipients = pagarme.recipient.find_all()
-
-  print(recipients)
+recipients = pagarme.recipient.find_all()
 ```
 
 ### Retornando um recebedor
 
 ```python
-  recipient - pagarme.recipient.find_by({"id":"recipient_id"})
-
-  print(recipient)
+recipient - pagarme.recipient.find_by({"id":"ID_RECEBEDOR"})
 ```
 
 ### Atualizando um recebedor
 
 ```python
-  recipientUpdate = pagarme.recipient.update_recipient(
-    "recipient_id",
-    {
-        "anticipatable_volume_percentage": "80",
-        "bank_account_id": "17365100"
-    }
-  )
-
-  print(recipientUpdate)
+recipientUpdate = pagarme.recipient.update_recipient(
+  "ID_RECEBEDOR",
+  {
+      "anticipatable_volume_percentage": "80",
+      "bank_account_id": "ID_BANK_ACCOUNT"
+  }
+)
 ```
 
 ### Saldo de um recebedor
 
 ```python
-  recipientBalance = pagarme.recipient.recipient_balance("recipient_id")
-
-  print(recipientBalance)
+recipientBalance = pagarme.recipient.recipient_balance("ID_RECEBEDOR")
 ```
 
 ### Operações de saldo de um recebedor
 
 ```python
-  recipientBalanceOperations = pagarme.recipient.recipient_balance_operation("recipient_id")
-
-  print(recipientBalanceOperations)
+recipientBalanceOperations = pagarme.recipient.recipient_balance_operation("ID_RECEBEDOR")
 ```
 
 ### Operação de saldo específica de um recebedor
 
 ```python
-  recipientBalanceOperation = balance_operation = pagarme.recipient.recipient_balance_operation_id("recipient_id", "operation_id")
-
-  print(recipientBalanceOperation)
+recipientBalanceOperation = balance_operation = pagarme.recipient.recipient_balance_operation_id("ID_RECEBEDOR", "ID_OPERAÇÃO")
 ```
 
 ## Clientes
@@ -859,39 +751,33 @@ Clientes representam os usuários de sua loja, ou negócio. Este objeto contém 
 ### Criando um cliente
 
 ```python
-  customer = pagarme.customer.create({
-    'external_id': '#123456789',
-    'name': 'João das Neves',
-    'type': 'individual',
-    'country': 'br',
-    'email': 'joaoneves@norte.com',
-    'documents': [
-      {
-        'type': 'cpf',
-        'number': '11111111111'
-      }
-    ],
-    'phone_numbers': ['+5511999999999', '+5511888888888'],
-    'birthday': '1985-01-01'
-  })
-
-  print(customer)
+customer = pagarme.customer.create({
+  'external_id': '#123456789',
+  'name': 'João das Neves',
+  'type': 'individual',
+  'country': 'br',
+  'email': 'joaoneves@norte.com',
+  'documents': [
+    {
+      'type': 'cpf',
+      'number': '11111111111'
+    }
+  ],
+  'phone_numbers': ['+5511999999999', '+5511888888888'],
+  'birthday': '1985-01-01'
+})
 ```
 
 ### Retornando clientes
 
 ```python
-  customers = pagarme.customer.find_all()
-
-  print(customers)
+customers = pagarme.customer.find_all()
 ```
 
 ### Retornando um cliente
 
 ```python
-  customer = pagarme.customer.find_by({"id": "customer_id"})
-
-  print(customer)
+customer = pagarme.customer.find_by({"id": "ID_CUSTOMER"})
 ```
 
 ## Links de pagamento
@@ -899,72 +785,64 @@ Clientes representam os usuários de sua loja, ou negócio. Este objeto contém 
 ### Criando um link de pagamento
 
 ```python
-  paymentLink = pagarme.payment_link.create({
-    'amount' : 10000,
-    'items' : {
-      {
-        'id' : '1',
-        'title' : "Fighter's Sword",
-        'unit_price' : 4000,
-        'quantity' : 1,
-        'tangible' : true,
-        'category' : 'weapon',
-        'venue' : 'A Link To The Past',
-        'date' : '1991-11-21'
-      },
-      {
-        'id' : '2',
-        'title' : 'Kokiri Sword',
-        'unit_price' : 6000,
-        'quantity' : 1,
-        'tangible' : true,
-        'category' : 'weapon',
-        'venue' : "Majora's Mask",
-        'date' : '2000-04-27'
-      },
+paymentLink = pagarme.paymentLinks.create({
+  'amount' : 10000,
+  'items' : {
+    {
+      'id' : '1',
+      'title' : "Fighter's Sword",
+      'unit_price' : 4000,
+      'quantity' : 1,
+      'tangible' : true,
+      'category' : 'weapon',
+      'venue' : 'A Link To The Past',
+      'date' : '1991-11-21'
     },
-    'payment_config' : {
-      'boleto' : {
-        'enabled' : true,
-        'expires_in' : 20
-      },
-      'credit_card' : {
-        'enabled' : true,
-        'free_installments' : 4,
-        'interest_rate' : 25,
-        'max_installments' : 12
-      },
-      'default_payment_method' : 'boleto'
+    {
+      'id' : '2',
+      'title' : 'Kokiri Sword',
+      'unit_price' : 6000,
+      'quantity' : 1,
+      'tangible' : true,
+      'category' : 'weapon',
+      'venue' : "Majora's Mask",
+      'date' : '2000-04-27'
     },
-    'max_orders' : 1,
-    'expires_in' : 60
-  })
-
-  print(paymentLink)
+  },
+  'payment_config' : {
+    'boleto' : {
+      'enabled' : true,
+      'expires_in' : 20
+    },
+    'credit_card' : {
+      'enabled' : true,
+      'free_installments' : 4,
+      'interest_rate' : 25,
+      'max_installments' : 12
+    },
+    'default_payment_method' : 'boleto'
+  },
+  'max_orders' : 1,
+  'expires_in' : 60
+})
 ```
 
 ### Retornando links de pagamento
 
 ```python
-  paymentLinks = pagarme.payment_link.find_all()
-
-  print(paymentLinks)
+paymentLinks = pagarme.payment_link.find_all()
 ```
 
 ### Retornando um link de pagamento
 
 ```python
-  paymentLink = pagarme.payment_link.find_by_id('id_link_de_pagamento')
-
-  print(paymentLink)
+paymentLink = pagarme.payment_link.find_by_id('ID_LINK_PAGAMENTO')
 ```
 
 ### Cancelando um link de pagamento
 
 ```python
-  paymentLinkCancel = pagarme.payment_link.cancel('id_link_de_pagamento')
-
-  print(paymentLinkCancel)
+paymentLinkCancel = pagarme.payment_link.cancel('ID_LINK_PAGAMENTO')
 ```
 
 ## Support
