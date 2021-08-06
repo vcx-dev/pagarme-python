@@ -18,10 +18,7 @@ testing_extras = [
 
 
 def _find_version():
-    filename = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)),
-        'pagarme/sdk.py'
-    )
+    filename = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'pagarme/sdk.py')
     with open(filename) as f:
         data = f.read()
 
@@ -30,8 +27,6 @@ def _find_version():
 
 
 __version__ = _find_version()
-
-install_requires = open('requirements.txt').read().strip().split('\n')
 
 
 setup(
@@ -48,7 +43,7 @@ setup(
     keywords='Payment, pagarme',
     include_package_data=True,
     zip_safe=False,
-    install_requires=install_requires,
+    install_requires=['requests>=2.20.0'],
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
