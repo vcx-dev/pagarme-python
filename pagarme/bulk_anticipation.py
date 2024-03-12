@@ -7,18 +7,8 @@ def cancel(recipient_id, bulk_anticipation_id):
         handler_request.post(bulk_anticipation_routes.CANCEL_ANTICIPATION.format(recipient_id, bulk_anticipation_id))
 
 
-def confirm(recipient_id, bulk_anticipation_id):
-    return \
-        handler_request.post(bulk_anticipation_routes.CONFIRM_ANTICIPATION.format(recipient_id, bulk_anticipation_id))
-
-
 def create(recipient_id, dictionary):
     return handler_request.post(bulk_anticipation_routes.BASE_URL.format(recipient_id), dictionary)
-
-
-def delete(recipient_id, bulk_anticipation_id):
-    return \
-        handler_request.delete(bulk_anticipation_routes.DELETE_ANTICIPATION.format(recipient_id, bulk_anticipation_id))
 
 
 def find_all(recipient_id):
