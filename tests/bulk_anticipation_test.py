@@ -11,7 +11,6 @@ def test_cancel():
     default_recipient_id = transaction_dictionary.DEFAULT_RECIPIENT
     recipient.update_recipient(default_recipient_id, recipient_dictionary.UPDATE_RECIPIENT)
     _bulk_anticipation = bulk_anticipation.create(default_recipient_id, bulk_anticipation_dictionary.BULK_ANTICIPATION)
-    bulk_anticipation.confirm(default_recipient_id, _bulk_anticipation['id'])
     cancel_bulk_anticipation = bulk_anticipation.cancel(default_recipient_id, _bulk_anticipation['id'])
     assert cancel_bulk_anticipation['status'] == 'canceled'
 
